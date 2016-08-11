@@ -43,5 +43,5 @@ foreach ($list as $data) {
     $pdo->exec($data);
 }
 
-$user = Users::create_admin($pdo, "admin@general.com", "password", "Admin", "General", "sadghsvahds", "098874323256");
-print_r($user);
+//$user = Users::create_admin($pdo, "admin@general.com", "password", "Admin", "General", "sadghsvahds", "098874323256");
+//print_r($user);

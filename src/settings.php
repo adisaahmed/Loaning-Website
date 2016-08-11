@@ -18,8 +18,8 @@ return [
         // Database settings
         'db' => [
             'host' => 'localhost',
-            'user' => 'root',
-            'pass' => '',
+            'user' => 'general',
+            'pass' => 'general',
             'dbname' => 'ecogeneral'
         ]
     ],
