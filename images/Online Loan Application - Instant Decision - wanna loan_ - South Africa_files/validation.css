@@ -1,0 +1,72 @@
+﻿.error
+{
+    background-image: url(../images/apply_field_bg_error.jpg);
+}
+
+.error input
+{
+    background-color: #FFD5D5;
+}
+
+.error select
+{
+    background-color: #FFD5D5;
+}
+
+.error select option
+{
+    background-color: #FFD5D5;
+}
+
+.defaultOption
+{
+    color: #999;
+}
+
+.errorMessage
+{
+    padding-top: 15px;
+    padding-left: 20px;
+    height: 30px;
+    color: #555555;
+    border: solid 1px #DF0000;
+    background-color: #FFD5D5;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.successMessage
+{
+    padding-top: 15px;
+    padding-left: 20px;
+    height: 30px;
+    color: #555555;
+    border: solid 1px #009FE1;
+    background-color: #B2E2F6;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+
+.focus
+{
+    background-image: url(../images/apply_field_bg_focus.jpg);
+}
+
+.focus input
+{
+    background-color: #B2E2F6;
+}
+
+.focus select
+{
+    background-color: #B2E2F6;
+}
+
+.focus select option
+{
+    background-color: #fff;
+}
+
+
+
