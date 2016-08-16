@@ -18,9 +18,9 @@ return [
         // Database settings
         'db' => [
             'host' => 'localhost',
-            'user' => 'general',
-            'pass' => 'general',
-            'dbname' => 'ecogeneral'
+            'user' => 'efflux_general',
+            'pass' => '8erd+g%k*Cv%',
+            'dbname' => 'efflux_ecogeneral'
         ]
     ],
 ];

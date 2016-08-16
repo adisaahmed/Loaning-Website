@@ -18,7 +18,7 @@ use Zend\Session\Config\SessionConfig;
 use Zend\Session\SessionManager;
 
 $validator = new PasswordValidator();
-$adapter = new PdoAdapter($pdo, 'users', 'email', 'password', $validator);
+$adapter = new PdoAdapter($pdo, 'access', 'email', 'password', $validator);
 $acl = new \Acl();
 
 $sessionConfig = new SessionConfig();

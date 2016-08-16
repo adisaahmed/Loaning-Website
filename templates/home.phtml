@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Homepage</title>
+		<title>EcoGeneral Loan Services | Home</title>
         <link rel="stylesheet" href="static/js/jquery-ui/jquery-ui.css">
         <link rel="stylesheet" href="static/css/bootstrap/css/bootstrap-theme.css">
         <link rel="stylesheet" href="static/css/bootstrap/css/bootstrap.min.css">
@@ -68,7 +68,7 @@
 										</td>
 										<td class="slide" style="width:495px">
 											<span>NGN[[min | number]]</span><span style="float:right;">NGN[[max | number]] </span>
-											<input type="range" min="[[min]]" max="[[max]]" ng-model="value" ng-change="Changes(value)">
+											<input type="range" min="[[min]]" max="[[max]]" ng-model="Borrow" ng-change="valueChanges()">
 										</td>
 										<td class="plus" style="width:30px; float:right; padding-left:13px;">
 											<a href="" style="font-size:20px;">
@@ -128,7 +128,7 @@
 			<div class="right_content">
 				<div class="slide_values" style="margin-top:0px; background:#15A7DF;">
 					<div class="main_value">
-						NGN10,000:00
+						NGN[[interest | number]]
 					</div>
 					<div class="value_name">
 						Interest And Fees
@@ -149,7 +149,7 @@
 			<div class="right_content">
 				<div class="slide_values" style="margin-top:0px; background:#272968;">
 					<div class="main_value">
-						NGN13,000:00
+						NGN[[total | number]]
 					</div>
 					<div class="value_name">
 						Total Repayable
