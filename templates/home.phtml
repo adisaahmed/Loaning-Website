@@ -67,7 +67,7 @@
 											</a>
 										</td>
 										<td class="slide" style="width:495px">
-											<span>NGN[[min | number]]</span><span style="float:right;">NGN[[max | number]] </span>
+											<span>NGN[[min | number]]</span><span ng-cloak style="float:right;">NGN[[max | number]] </span>
 											<input type="range" min="[[min]]" max="[[max]]" ng-model="Borrow" ng-change="valueChanges()">
 										</td>
 										<td class="plus" style="width:30px; float:right; padding-left:13px;">
@@ -84,7 +84,7 @@
 			</div>
 			<div class="right_content">
 				<div class="slide_values" style="margin-top:0px;">
-					<div class="main_value">
+					<div class="main_value" ng-cloak>
 						NGN[[Borrow | number]]
 					</div>
 					<div class="value_name">
@@ -111,7 +111,7 @@
 										</a>
 									</td>
 									<td class="slide" style="width:495px">
-                                        <span>[[start | number]] days</span><span style="float:right;">[[end | number]] days</span>
+                                        <span>[[start | number]] days</span><span style="float:right;" ng-cloak>[[end | number]] days</span>
                                         <input type="range" min="[[start]]" max="[[end]]" ng-model="date_value" ng-change="dateChange(date_value)">
 									</td>
 									<td class="plus" style="width:30px; float:right; padding-left:13px;">
@@ -127,7 +127,7 @@
 			</div>
 			<div class="right_content">
 				<div class="slide_values" style="margin-top:0px; background:#15A7DF;">
-					<div class="main_value">
+					<div class="main_value" ng-cloak>
 						NGN[[interest | number]]
 					</div>
 					<div class="value_name">
@@ -148,7 +148,7 @@
 			</div>
 			<div class="right_content">
 				<div class="slide_values" style="margin-top:0px; background:#272968;">
-					<div class="main_value">
+					<div class="main_value" ng-cloak>
 						NGN[[total | number]]
 					</div>
 					<div class="value_name">
@@ -171,7 +171,7 @@
 			</div>
 			<div class="right_content">
 				<div class="slide_values" style="margin-top:0px; background:#fff;">
-					<div class="img_div"></div>
+					<div ng-click="submit()" class="img_div"></div>
 				</div>
 			</div>
 		</div>

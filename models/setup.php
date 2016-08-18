@@ -23,22 +23,16 @@ $sql = "CREATE TABLE IF NOT EXISTS $table (
     last_name VARCHAR( 150 ) NOT NULL,
     title VARCHAR (20) NOT NULL,
     gender VARCHAR (10) NOT NULL,
-    date_of_birth VARCHAR (100) NOT NULL,
     age INT (5) NOT NULL,
-    mobile INT (10) NOT NULL,
-    residential_status VARCHAR (100) NOT NULL,
+    bvn INT NOT NULL,
     marital_status VARCHAR (50) NOT NULL,
     dependants INT (5) NOT NULL,
-    house_number INT (10) NOT NULL,
     street VARCHAR (255) NOT NULL,
-    suburb VARCHAR(255) NOT NULL,
-    city VARCHAR (255) NOT NULL,
-    province VARCHAR (255) NOT NULL,
-    postal_code VARCHAR (100) NOT NULL,
-    survey VARCHAR (255) NOT NULL, 
+    state VARCHAR(255) NOT NULL,
+    city VARCHAR (255) NOT NULL, 
     email VARCHAR( 255 ) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    phone VARCHAR(50) NOT NULL);";
+    phone INT NOT NULL);";
 
 array_push($list, $sql);
 
@@ -50,7 +44,7 @@ $new_sql = "CREATE TABLE IF NOT EXISTS $req (
     interest FLOAT NOT NULL,
     servicefee FLOAT NOT NULL,
     total FLOAT NOT NULL,
-    status VARCHAR (100) NOT NULL);";
+    status VARCHAR (100) DEFAULT FALSE);";
 
 array_push($list, $new_sql);
 
@@ -66,6 +60,3 @@ array_push($list, $new_psql);
 foreach ($list as $data) {
     $pdo->exec($data);
 }
-
-$user = Access::create($pdo, "admin@general.com", "general", true);
-print_r($user);

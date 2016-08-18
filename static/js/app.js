@@ -13,7 +13,7 @@ _app.controller('LoginController', function () {
     
 });
 
-_app.controller('CalculateController', function ($scope) {
+_app.controller('CalculateController', function ($scope, $window) {
 
     var num = 0.0;
     $scope.min = 1000.0;
@@ -51,5 +51,38 @@ _app.controller('CalculateController', function ($scope) {
         $scope._date = $scope.today;
         $scope._date.setDate($scope._date.getDate() + val);
     };
-    
+
+    $scope.submit = function () {
+        $.post('/compute', {
+            serviceFee: $scope.serviceFee,
+            interest: $scope.interest,
+            total: $scope.total,
+            borrow: $scope.Borrow,
+        }, function (data, status) {
+            localStorage.setItem("service_fee", $scope.serviceFee);
+            localStorage.setItem("interest", $scope.interest);
+            localStorage.setItem("total", $scope.total);
+            localStorage.setItem('borrow', $scope.Borrow);
+        });
+        location.href = '/cash';
+    }
+});
+
+_app.controller('ProfileController', function ($scope) {
+
+    $scope.error = null;
+
+    $scope.service_fee = localStorage.getItem('service_fee');
+    $scope.interest = localStorage.getItem('interest');
+    $scope.total = localStorage.getItem('total');
+    $scope.borrow = localStorage.getItem('borrow');
+
+    $scope.checkPassword = function () {
+        if ($scope.password != $scope.verify){
+            $scope.error = "Passwords do not match";
+        }
+        else {
+            $scope.error = null;
+        }
+    }
 });

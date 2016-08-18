@@ -73,12 +73,12 @@ abstract class Model
 class LoanRequest extends Model
 {
 
-    static public function create($db, $email, $amount, $interest, $servicefee)
+    static public function create($db, $email, $amount, $total, $interest, $serviceFee)
     {
-        $query = $db->prepare('INSERT INTO request (email, amount, interest, servicefee)'
-            . "VALUES (?, ?, ?, ?)");
-        $query->execute(array($email, $amount, $interest, $servicefee));
-        $obj = $query->fetch(PDO::FETCH_CLASS, static::class);
+        $query = $db->prepare('INSERT INTO loan_request (email, amount, total, interest, servicefee)'
+            . "VALUES (?, ?, ?, ?, ?)");
+        $query->execute(array($email, $amount, $total, $interest, $serviceFee));
+        $obj = $query->fetch();
         return $obj;
     }
 }
@@ -86,13 +86,15 @@ class LoanRequest extends Model
 class Users extends Model
 {
 
-    static public function create($db, $email, $password, $first_name, $last_name, $province, $postal_code, $survey, $title, $gender, $date_of_birth, $age, $mobile, $residential_status, $marital_status, $dependants, $house_number, $street, $suburb, $city)
+    static public function create($db, $email, $password, $first_name, $last_name, $bvn, $title, $gender, $age, $phone, $marital_status, $dependants, $street, $state, $city)
     {
-        $db->prepare('INSERT INTO users (email, password, first_name, last_name, province, postal_code, survey, title, gender, date_of_birth, age, mobile, residential_status, marital_status, dependants, house_number, street, suburb, city)'
-            . "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $db->execute(array($email, password_hash($password, PASSWORD_DEFAULT), $first_name, $last_name, $province, $postal_code, $survey, $title, $gender, $date_of_birth, $age, $mobile, $residential_status, $marital_status, $dependants, $house_number, $street, $suburb, $city));
-    
-        Access::create($db, $email, $password);
+        $query = $db->prepare('INSERT INTO users (email, password, first_name, last_name, bvn, title, gender, age, phone, marital_status, dependants, street, state, city)'
+            . "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $query->execute(array($email, password_hash($password, PASSWORD_DEFAULT), $first_name, $last_name, $bvn, $title, $gender, $age, $phone, $marital_status, $dependants, $street, $state, $city));
+
+        $obj = $query->fetch();
+
+        return Access::create($db, $email, $password);
     }
     
 }
@@ -105,14 +107,19 @@ class Access extends Model
         $query = $db->prepare('INSERT INTO access (email, password)'
             . "VALUES (?, ?)");
         $query->execute(array($email, password_hash($password, PASSWORD_DEFAULT)));
+
+        $obj = $query->fetch();
+
+        return $obj;
     }
 
     static public function findByEmail($db, $email)
     {
-        $query = $db->prepare('SELECT * FROM access WHERE email='.$email);
-        var_dump($query);
-        $obj = $query->fetch();
 
-        return $obj;
+        $query = $db->prepare('SELECT * FROM access WHERE email="'.$email.'"');
+        $query->execute();
+        $result = $query->fetch();
+
+        return $result;
     }
 }
