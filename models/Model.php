@@ -58,7 +58,7 @@ abstract class Model
 
         return $obj;
     }
-
+        
     protected function filterBy(array $args, array $data)
     {
 
