@@ -209,96 +209,60 @@
 						<div class="form_header">
 							<span class="first_color">Personal Details</span> (all <span style="color:red;">*</span> denote mandatory fields)
 						</div>
-						<div class="title_wrap">
-							<div class="first_title">
-							Title
-								<span style="color:red;">*</span>
-							</div>
-							<div class="title first_title">
-								Name
-								<span style="color:red;">*</span>
-							</div>
-							<div class="title first_title">
-								Surname
-								<span style="color:red;">*</span>
-							</div>
-						</div>
-						<div class="input_wrap">
-							<div class="input_title">
-								<select name="title" id="title" form="carform" required>
+						<div class="form-group form_wrap clearfix">
+				           <div class="col-sm-4">
+				             	<label for="sur">Title:</label> <br>
+						      	<select name="title" id="title" form="carform" required>
 								  <option value="Mr." class="capitalize">Mr.</option>
 								  <option value="Mrs." class="capitalize">Mrs.</option>
 								  <option value="Ms." class="capitalize">Ms.</option>
 								  <option value="Miss" class="capitalize">Miss</option>
 								</select>
-							</div>
-							<div class="input_name">
-								<input name="first_name" type="text" id="first_name" class="input" required>
-							</div>
-							<div class="input_name">
-								<input name="last_name" type="text" id="last_name" class="input" required>
-							</div>
-						</div>
-
-						<div class="title_wrap">
-							<div class="first_title">
-								Bank Verification Number
-								<span style="color:red;">*</span>
-							</div>
-							<div class="title first_title">
-								Gender
-								<span style="color:red;">*</span>
-							</div>
-							<div class="title first_title">
-								Date of Birth
-								<span style="color:red;">*</span>
-							</div>
-						</div>
-						<div class="input_wrap">
-							<div class="input_title">
-								<div class="">
-									<input name="bvn" type="text" id="bvn" class="input" required>
-								</div>
-							</div>
-							<div class="input_name">
-								<select name="gender" form="carform" id="gender" required>
+				           </div>
+				           <div class="col-sm-4">
+				             	<label for="sur">Name:</label> <br>
+						      	<input name="first_name" type="text" id="first_name" class="input" required>
+				           </div>
+				           <div class="col-sm-4">
+				             	<label for="sur">Surname:</label> <br>
+						      	<input name="last_name" type="text" id="last_name" class="input" required>
+				           </div>
+					    </div>
+					    <div class="form-group form_wrap clearfix">
+				           <div class="col-sm-4">
+				             	<label for="sur">Bank Verification Number:</label>
+						   		<input name="bvn" type="text" id="bvn" class="input" required>
+				           </div>       
+				           <div class="col-sm-4">
+				             	<label for="sur">Gender:</label>
+						      	<select name="gender" form="carform" id="gender" required>
 									<option value="Male" class="capitalize">Male</option>
 									<option value="Female" class="capitalize">Female</option>
 								</select>
-							</div>
-							<div class="input_name">
-								<input name="date_of_birth" type="date" id="date_of_birth" class="input" required>
-							</div>
-						</div>
+				           </div>
+				           <div class="col-sm-4">
+				             	<label for="sur">Date of Birth:</label>
+						      	<input name="date_of_birth" type="date" id="date_of_birth" class="input" required>
+				           </div>
+					    </div>
 					</div>
 					<hr/>
 					<div class="form_content">
 						<div class="form_header">
 							<span class="first_color">Contact Details</span>
 						</div>
-						<div class="title_wrap">
-							<div class="first_title">
-								Street
-								<span style="color:red;">*</span>
-							</div>
-							<div class="title first_title">
-								City
-								<span style="color:red;">*</span>
-							</div>
-							<div class="title first_title">
-								State
-								<span style="color:red;">*</span>
-							</div>
-						</div>
-						<div class="input_wrap">
-							<div class="input_title">
-								<input name="street" type="text" id="street" class="input" required>
-							</div>
-							<div class="input_name">
-								<input name="city" type="text" id="city" class="input" required>
-							</div>
-							<div class="input_name">
-								<select name="state" id="state" form="carform" required>
+						<div class="form-group form_wrap clearfix">
+				           <div class="col-sm-4">
+				             	<label for="sur">Street:</label> <br>
+						   		<input name="street" type="text" id="street" class="input" required>
+				           </div>       
+				           <div class="col-sm-4">
+				             	<label for="sur">City:</label> <br>
+						      	<input name="city" type="text" id="city" class="input" required>
+				           </div>
+				           <div class="col-sm-4">
+				             	<label for="sur">State:</label> <br>
+						      	<select name="state" id="state" form="carform" required>
 									<option value="Abia" class="capitalize">Abia</option>
 									<option value="Adamawa" class="capitalize">Adamawa</option>
 									<option value="Akwa Ibom" class="capitalize">Akwa Ibom</option>
@@ -336,75 +300,52 @@
 									<option value="Yobe" class="capitalize">Yobe</option>
 									<option value="Zamfara" class="capitalize">Zamfara</option>
 								</select>
-							</div>
-						</div>
+				           </div>
+					    </div>
 					</div>
 					<hr/>
 					<div class="form_content">
 						<div class="form_header">
 							<span class="first_color">Living Details</span>
 						</div>
-						<div class="title_wrap">
-							<div class="first_title">
-								Mobile/Cell
-								<span style="color:red;">*</span>
-							</div>
-							<div class="title first_title">
-								Marital Status
-								<span style="color:red;">*</span>
-							</div>
-							<div class="title first_title">
-								Dependants
-								<span style="color:red;">*</span>
-							</div>
-						</div>
-						<div class="input_wrap">
-							<div class="input_title">
-								<input name="phone" type="text" id="phone" class="input" required>
-							</div>
-							<div class="input_name">
-								<select name="marital_status" id="marital_status" form="carform" required>
+						<div class="form-group form_wrap clearfix">
+				           <div class="col-sm-4">
+				             	<label for="sur">Mobile/Cell</label> <br>
+						      	<input name="phone" type="text" id="phone" class="input" required>
+				           </div>  
+				           <div class="col-sm-4">
+				             	<label for="sur">Marital Status</label> <br>
+						      	<select name="marital_status" id="marital_status" form="carform" required>
 									<option value="single" class="capitalize">single</option>
 									<option value="married" class="capitalize">married</option>
 									<option value="divorced" class="capitalize">divorced</option>
 								</select>
-							</div>
-							<div class="input_name">
-								<input name="dependants" type="number" id="dependants" class="input" required>
-							</div>
-						</div>
+				           </div>  
+				           <div class="col-sm-4">
+				             	<label for="sur">Dependants</label> <br>
+						      	<input name="dependants" type="number" id="dependants" class="input" required>
+				           </div>       
+					    </div>
 					</div>
 					<hr/>
 					<div class="form_content">
 						<div class="form_header">
 							<span class="first_color">Create an Account</span>
 						</div>
-						<div class="title_wrap">
-							<div class="first_title">
-								Email
-								<span style="color:red;">*</span>
-							</div>
-							<div class="title first_title">
-								Password
-								<span style="color:red;">*</span>
-							</div>
-							<div class="title first_title">
-								Confirm Password
-								<span style="color:red;">*</span>
-                                <small style="color: red; font-size: 7px" ng-show="error">Passwords don't match</small>
-							</div>
-						</div>
-						<div class="input_wrap">
-							<div class="input_title">
-								<input name="email" type="email" id="email" class="input" required>
-							</div>
-							<div class="input_name">
-								<input name="password" type="password" id="password" ng-model="password" class="input" required>
-							</div>
-							<div class="input_name">
-								<input name="verify_password" type="password" id="verify_password" ng-model="verify" ng-change="checkPassword()" class="input" required>
-							</div>
-						</div>
+						<div class="form-group form_wrap clearfix">
+				           <div class="col-sm-4">
+				             	<label for="sur">Email</label> <br>
+						      	<input name="email" type="email" id="email" class="input" required>
+				           </div>  
+				           <div class="col-sm-4">
+				             	<label for="sur">Password</label> <br>
+						      	<input name="password" type="password" id="password" ng-model="password" class="input" required>
+				           </div>  
+				           <div class="col-sm-4">
+				             	<label for="sur">Confirm Password</label> <br>
+						      	<input name="verify_password" type="password" id="verify_password" ng-model="verify" ng-change="checkPassword()" class="input" required>
+				           </div>       
+					    </div>
 					</div>
 					<hr/>
 					<div class="confirmation_div clearfix">
