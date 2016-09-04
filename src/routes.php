@@ -135,3 +135,15 @@ $app->get('/what', function($request, $response, $args) {
 $app->get('/payday', function($request, $response, $args) {
     return $this->renderer->render($response, 'payday_loan.phtml', $args);
 });
+
+$app->get('/agreement', function($request, $response, $args) {
+    return $this->renderer->render($response, 'agreement.phtml', $args);
+});
+
+$app->get('/status', function($request, $response, $args) {
+    return $this->renderer->render($response, 'loan_status.phtml', $args);
+});
+
+$app->get('/approved', function($request, $response, $args) {
+    return $this->renderer->render($response, 'approved.phtml', $args);
+});
