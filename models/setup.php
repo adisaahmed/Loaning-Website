@@ -44,7 +44,8 @@ $new_sql = "CREATE TABLE IF NOT EXISTS $req (
     interest FLOAT NOT NULL,
     servicefee FLOAT NOT NULL,
     total FLOAT NOT NULL,
-    status VARCHAR (100) DEFAULT FALSE);";
+    approved BOOL DEFAULT FALSE,
+    paid BOOL DEFAULT FALSE);";
 
 array_push($list, $new_sql);
 

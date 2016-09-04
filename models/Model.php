@@ -81,6 +81,16 @@ class LoanRequest extends Model
         $obj = $query->fetch();
         return $obj;
     }
+
+    static public function findByEmail($db, $email)
+    {
+
+        $query = $db->prepare('SELECT * FROM loan_request WHERE email="'.$email.'"');
+        $query->execute();
+        $result = $query->fetch();
+
+        return $result;
+    }
 }
 
 class Users extends Model
@@ -96,7 +106,6 @@ class Users extends Model
 
         return Access::create($db, $email, $password);
     }
-    
 }
 
 class Access extends Model

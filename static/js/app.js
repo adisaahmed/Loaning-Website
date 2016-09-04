@@ -15,41 +15,50 @@ _app.controller('LoginController', function () {
 
 _app.controller('CalculateController', function ($scope, $window) {
 
-    var num = 0.0;
-    $scope.min = 1000.0;
-    $scope.max = 5000.0;
-    $scope.value = 1000.0;
-
-    $scope.start = 10;
-    $scope.end = 40;
-    $scope.date_value = 10;
-
-    $scope.today = new Date();
-    $scope._date = $scope.today.setDate($scope.today.getDate() + $scope.date_value);
-
-    $scope.Borrow = $scope.value;
-
-    $scope.vat = 5;
-    $scope.processingFee = 0.5;
-
     $scope.reCalculate = function () {
 
-        $scope.serviceFee = 1500 + (5/100 * $scope.Borrow);
-        $scope.interestRate = (0.34 * $scope.date_value* $scope.Borrow)/100;
-        $scope.interest = parseInt($scope.interestRate) + parseInt($scope.serviceFee);
-        $scope.total = $scope.Borrow + $scope.interest;
-
+        $scope.serviceFee = parseFloat(1500) + parseFloat(0.05 * $scope.borrow);
+        $scope.interestRate = parseFloat(0.0034 * $scope.date_value * $scope.borrow);
+        $scope.interest = parseFloat($scope.interestRate) + parseFloat($scope.serviceFee);
+        $scope.total = parseFloat($scope.borrow) + parseFloat($scope.interest);
     };
 
-    $scope.reCalculate();
+    $scope.init = function () {
+
+        var num = 0.0;
+        $scope.min = 1000.0;
+        $scope.max = 5000.0;
+
+        $scope.start = 10;
+        $scope.end = 40;
+
+        $scope.date_value = localStorage.getItem('date_value');
+
+        if (! $scope.date_value) {
+            $scope.date_value = $scope.start;
+        }
+
+        $scope._date = new Date(new Date().getTime()+($scope.date_value*24*60*60*1000));
+
+        $scope.borrow = localStorage.getItem('borrow');
+
+        if (! $scope.borrow) {
+            $scope.borrow = 1000.0;
+        }
+
+        $scope.vat = 5;
+        $scope.processingFee = 0.5;
+
+        $scope.reCalculate();
+    };
 
     $scope.valueChanges = function () {
         $scope.reCalculate();
     };
 
-    $scope.dateChange = function (val) {
-        $scope._date = $scope.today;
-        $scope._date.setDate($scope._date.getDate() + val);
+    $scope.dateChange = function () {
+        $scope._date = new Date(new Date().getTime()+($scope.date_value*24*60*60*1000));
+        $scope.reCalculate();
     };
 
     $scope.submit = function () {
@@ -57,20 +66,30 @@ _app.controller('CalculateController', function ($scope, $window) {
             serviceFee: $scope.serviceFee,
             interest: $scope.interest,
             total: $scope.total,
-            borrow: $scope.Borrow,
+            borrow: $scope.borrow
         }, function (data, status) {
             localStorage.setItem("service_fee", $scope.serviceFee);
             localStorage.setItem("interest", $scope.interest);
             localStorage.setItem("total", $scope.total);
-            localStorage.setItem('borrow', $scope.Borrow);
+            localStorage.setItem('borrow', $scope.borrow);
+            localStorage.setItem('date_value', $scope.date_value);
         });
         location.href = '/cash';
     }
 });
 
 _app.controller('ProfileController', function ($scope) {
+    
+    $scope.errors = '';
 
-    $scope.error = null;
+    $.get('/errors', function (data, status) {
+        if (data) {
+            $scope.errors = "You have an outstanding loan repayment to complete. Please visit client tab to log in and confirm its status";
+        }
+    });
+
+    console.log($scope.errors);
+
 
     $scope.service_fee = localStorage.getItem('service_fee');
     $scope.interest = localStorage.getItem('interest');

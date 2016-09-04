@@ -209,6 +209,9 @@
 						<div class="form_header">
 							<span class="first_color">Personal Details</span> (all <span style="color:red;">*</span> denote mandatory fields)
 						</div>
+                        <div style="color: red">
+                            [[errors]]
+                        </div>
 						<div class="title_wrap">
 							<div class="first_title">
 							Title
@@ -415,7 +418,7 @@
 	                        Please note that we only intend to use your personal details for the purpose of
 	                        this application.
 							<br>
-							If you would like us to continue with the application, please select 'Yes, I do'	
+							If you would like us to continue with the application, please select 'Yes, I do'
 							<br><br>
 							Do you agree to our Privacy Policy and Terms and Conditions and give us permission to conduct a credit assessment?
 							<div class="agree">
@@ -426,9 +429,9 @@
 						</div>
 						<button ng-show="confirm && error == null" type="submit" style="color: white; font-size: 20px">Complete</button>
 					</div>
-					<button style="margin-top: 30px; float: right; height: 60px; width: 200px; background-color: #272968; border: none; border-radius: 5px; text-transform: uppercase;">
-						<a href="" style="color: #fff;">Continue</a>
-					</button>
+<!--					<button style="margin-top: 30px; float: right; height: 60px; width: 200px; background-color: #272968; border: none; border-radius: 5px; text-transform: uppercase;">-->
+<!--						<a href="" style="color: #fff;">Continue</a>-->
+<!--					</button>-->
 				</form>
 			</div>
 			

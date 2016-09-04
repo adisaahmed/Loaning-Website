@@ -11,62 +11,53 @@ require __DIR__. '/../models/Model.php';
 
 require __DIR__. '/dependencies.php';
 
-$app->get('/', function ($request, $response, $args) {
-    return $this->renderer->render($response, 'home.phtml', $args);
-})->setName('index');
+//$app->get('/', function ($request, $response, $args) {
+//    return $this->renderer->render($response, 'home.phtml', $args);
+//})->setName('index');
+
+$app->get('/', function ($request, $response){
+    return $this->view->render($response, 'home.twig');
+});
+
+$app->get('/about', function($request, $response, $args) {
+    return $this->view->render($response, 'about.twig');
+})->setName('about');
 
 $app->post('/compute', function ($request, $response, $args) {
     $_SESSION['data'] = array("interest"=>$request->getParam('interest'), "serviceFee"=>$request->getParam('serviceFee'), "total"=>$request->getParam('total'), "borrow"=>$request->getParam('borrow'));
 });
 
-$app->get('/about', function($request, $response, $args) {
-   return $this->renderer->render($response, 'about.phtml', $args);
-})->setName('about');
-
-$app->get('/client', function($request, $response, $args) {
-    return $this->renderer->render($response, 'client.phtml', $args);
-})->setName('client');
-
-$app->post('/client', function($request, $response, $args) {
-
-    global $container;
-
-    $email = $request->getParam('email');
-    $password = $request->getParam('password');
-    
-    $db = $container->get('settings')['db'];
-    $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
-
-    $user = \App\models\Access::findByEmail($pdo, $email);
-    
-    if (!$user) {
-        return $this->renderer->render($response, 'client.phtml', $args);
-    }
-
-    if (password_verify($password, $user['password'])) {
-        $_SESSION['user'] = $user['email'];
-        return $response->withRedirect($container->router->pathFor('index'));
-    }
-
-    return $this->renderer->render($response, 'client.phtml', $args);
-});
-
 $app->get('/faq', function($request, $response, $args) {
-    return $this->renderer->render($response, 'faq.phtml', $args);
-});
-
-$app->get('/portal', function($request, $response, $args) {
-    return $this->renderer->render($response, 'portal.phtml', $args);
-});
+    return $this->view->render($response, 'faq.twig');
+})->setName('faq');
 
 $app->get('/fast', function($request, $response, $args) {
-    return $this->renderer->render($response, 'fast_loan.phtml', $args);
-});
+    return $this->view->render($response, 'fast.twig');
+})->setName('fast');
 
 $app->get('/cash', function($request, $response, $args) {
-
-    return $this->renderer->render($response, 'get_cash.phtml', $args);
+    return $this->view->render($response, 'cash.twig');
 })->setName('cash');
+
+$app->get('/online', function($request, $response, $args) {
+    return $this->view->render($response, 'online.twig');
+});
+
+$app->get('/easy', function($request, $response, $args) {
+    $this->view->render($response, 'easy.twig');
+});
+
+$app->get('/short', function($request, $response, $args) {
+    $this->view->render($response, 'short.twig');
+});
+
+$app->get('/what', function($request, $response, $args) {
+    $this->view->render($response, 'what.twig');
+});
+
+$app->get('/payday', function($request, $response, $args) {
+    $this->view->render($response, 'payday.twig');
+});
 
 $app->post('/cash', function($request, $response, $args){
 
@@ -84,14 +75,18 @@ $app->post('/cash', function($request, $response, $args){
 
     $db = $container->get('settings')['db'];
     $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
-    
+
     $email = $request->getParam('email');
     $password = $request->getParam('password');
 
-    $user = \App\models\Access::findByEmail($pdo, $email);
+    $loan = \App\models\LoanRequest::findByEmail($pdo, $email);
 
-    if ($user) {
-        return $response->withRedirect($container->router->pathFor('cash'));
+    if ($loan) {
+        if (!$loan['paid']) {
+            $error = "You have an outstanding loan repayment to complete. Please visit client tab to log in and confirm its status";
+            $_SESSION['errors'] = $error;
+            return $this->renderer->render($response, 'get_cash.phtml');
+        }
     }
 
     $first_name = $request->getParam('first_name');
@@ -99,7 +94,6 @@ $app->post('/cash', function($request, $response, $args){
     $bvn = $request->getParam('bvn');
     $title = $request->getParam('title');
     $gender = $request->getParam('gender');
-//    $date_of_birth = $request->getParam('date_of_birth');
     $age = $request->getParam('age');
     $phone = $request->getParam('phone');
     $marital_status = $request->getParam('marital_status');
@@ -116,34 +110,70 @@ $app->post('/cash', function($request, $response, $args){
 
 });
 
-$app->get('/online', function($request, $response, $args) {
-    return $this->renderer->render($response, 'online_loan.phtml', $args);
-});
+$app->group('/user', function (){
 
-$app->get('/easy', function($request, $response, $args) {
-    return $this->renderer->render($response, 'easy_loan.phtml', $args);
-});
+    $this->get('/portal', function($request, $response, $args) {
+        return $this->view->render($response, 'portal.twig');
+    })->setName('portal');
 
-$app->get('/short', function($request, $response, $args) {
-    return $this->renderer->render($response, 'short_loan.phtml', $args);
-});
+    $this->get('/agreement', function($request, $response, $args) {
+        $this->view->render($response, 'agreement.twig');
+    });
 
-$app->get('/what', function($request, $response, $args) {
-    return $this->renderer->render($response, 'what_loan.phtml', $args);
-});
+    $this->get('/status', function($request, $response, $args) {
+        $this->view->render($response, 'status.twig');
+    })->setName('status');
 
-$app->get('/payday', function($request, $response, $args) {
-    return $this->renderer->render($response, 'payday_loan.phtml', $args);
-});
+    $this->get('/approved', function($request, $response, $args) {
+        $this->view->render($response, 'approved.twig');
+    });
 
-$app->get('/agreement', function($request, $response, $args) {
-    return $this->renderer->render($response, 'agreement.phtml', $args);
-});
+    $this->get('/logout', function ($request, $response){
+        
+        $this->auth->logout();
+        return $response->withRedirect($this->router->pathFor('client'));
+        
+    })->setName('logout');
 
-$app->get('/status', function($request, $response, $args) {
-    return $this->renderer->render($response, 'loan_status.phtml', $args);
-});
+})->add(new AuthMiddleware($container));
 
-$app->get('/approved', function($request, $response, $args) {
-    return $this->renderer->render($response, 'approved.phtml', $args);
-});
+$app->group('', function (){
+
+    $this->get('/client', function($request, $response) {
+        return $this->view->render($response, 'client.twig');
+    })->setName('client');
+
+    $this->post('/client', function($request, $response) {
+
+        global $container;
+
+        $email = $request->getParam('email');
+        $password = $request->getParam('password');
+
+        $db = $container->get('settings')['db'];
+        $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
+
+        $user = \App\models\Access::findByEmail($pdo, $email);
+
+        if (!$user) {
+            $errors = "Email account is not registered on the platform";
+            return $this->view->render($response, 'client.twig', [
+                'errors' => $errors
+            ]);
+        }
+
+        $attempt = $this->auth->attempt($user['email'], $password);
+
+        if (!$attempt) {
+            $errors = "Invalid email/password combination";
+            return $this->view->render($response, 'client.twig', [
+                'errors' => $errors
+            ]);
+        }
+
+        return $this->view->render($response, 'status.twig');
+    });
+    $this->get('/more', function ($request, $response){
+        return $this->view->render($response, 'more.twig');
+    });
+})->add(new GuestMiddleware($container));

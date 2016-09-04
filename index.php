@@ -29,5 +29,8 @@ require __DIR__ . '/src/middleware.php';
 // Register routes
 require __DIR__ . '/src/routes.php';
 
+$app->add(new ValidationErrorsMiddleware($container));
+$app->add(new OldInputMiddleware($container));
+
 // Run app
 $app->run();

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EcoGeneral Loan Services | Client Zone</title>
+    <link rel="stylesheet" href="static/js/jquery-ui/jquery-ui.css">
+    <link rel="stylesheet" href="static/css/bootstrap/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="static/css/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/client_zone.css">
+    <link rel="stylesheet" type="text/css" href="static/css/font-awesome/css/font-awesome.css">
+    <script type="text/javascript" src="static/js/angular.min.js"></script>
+    <script type="text/javascript" src="static/js/app.js"></script>
+    <script src="static/js/modernizr.js"></script>
+</head>
+<body>
+<div class="main_body clearfix">
+    <div class="first_section">
+        <div class="header">
+            <div class="header_content">
+                <div class="tabs">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/faq">FAQ</a></li>
+                        <li style="background-color:#15A7DF;"><a href="/client">Client Zone</a></li>
+                    </ul>
+                </div>
+                <div class="social_media">
+                    <ul>
+                        <li><a href="http://facebook.com"><i class="fa fa-facebook-square font_awesome"
+                                                             aria-hidden="true"></i></a></li>
+                        <li><a href="http://twitter.com"><i class="fa fa-twitter-square font_awesome"
+                                                            aria-hidden="true"></i></a></li>
+                        <li><a href="http://instagram.com"><i class="fa fa-instagram font_awesome"
+                                                              aria-hidden="true"></i></a></li>
+                        <li><a href="http://youtube.com"><i class="fa fa-youtube-play font_awesome"
+                                                            aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="logo_wrap clearfix">
+            <div class="logo_div clearfix">
+                <a href="" class="clearfix">
+                    <div class="logo"></div>
+                </a>
+            </div>
+            <div class="logo_content_div">
+                <h1>
+                    NIGERIA'S LEADING NAME IN ONLINE, PAYDAY LOANS. FOR FAST, PAPERLESS CASH
+                    LOANS UNTIL PAYDAY!
+                </h1>
+						<span class="style">
+							You can apply from <span class="white">NGN1000</span> up to <span
+                                    class="white">NGN3000</span> <br> <span style="font-size:20px; color:#fff;">SAME DAY. PAY DAY. EVERYDAY.</span>
+						</span>
+            </div>
+        </div>
+    </div>
+    <div class="second_section clearfix">
+        <h1>Access to Client Zone</h1>
+        <form method="post" action="/client">
+            <div class="authentication_div">
+                <div class="main_form">
+                    <span style="color: red; text-align: center; margin-left: 56px">{{ errors }}</span>
+                    <table width="400" align="center">
+                        <tr>
+                            <td class="labeli">
+                                <b>Email:</b>
+                            </td>
+                            <td>
+                                <input name="email" id="email" type="email" value="{{ old.email }}" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="labeli">
+                                <b>Password:</b>
+                            </td>
+                            <td>
+                                <input name="password" type="password" id="password" required>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="button">
+                <div class="main_button">
+                    <table>
+                        <tr>
+                            <td>
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<footer>
+    <div class="footer">
+        <div class="section_one">
+            <div class="content">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">Aboutus</a></li>
+                    <li><a href="/faq">Faqs</a></li>
+                    <li><a href="">Contactus</a></li>
+                    <li><a href="">Policy Privacy</a></li>
+                    <li><a href="">Terms and Conditions</a></li>
+                    <li><a href="/client">Clients Zone</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="section_two">
+            <div class="footer_sub">
+                <strong>Fast Loans</strong>
+                <span><a href="/fast">fast loans</a></span>
+                <span><a href="/payday">payday loans</a></span>
+            </div>
+            <div class="footer_sub">
+                <strong>Cash Loans</strong>
+                <span><a href="/easy">easy loans</a></span>
+                <span><a href="/short">short terms loan</a></span>
+            </div>
+            <div class="footer_sub">
+                <strong>Personal Loans</strong>
+                <span><a href="/what">what is a loan</a></span>
+                <span><a href="/online">online loan</a></span>
+            </div>
+        </div>
+        <div class="section_three">
+            <div class="content">
+                <span>Copyright &copy; Eco General 2016, <a href="http://www.effluxcompany.com/" target="_blank">powered by Efflux</a></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
