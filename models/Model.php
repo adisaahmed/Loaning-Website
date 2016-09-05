@@ -17,11 +17,6 @@ abstract class Model
         $this->db = $db;
     }
 
-    static public function create()
-    {
-        throw new Exception('Not implemented Error');
-    }
-
     protected function update()
     {
         throw new Exception('Not Implemented Error');
