@@ -80,16 +80,7 @@ _app.controller('CalculateController', function ($scope, $window) {
 
 _app.controller('ProfileController', function ($scope) {
     
-    $scope.errors = '';
-
-    $.get('/errors', function (data, status) {
-        if (data) {
-            $scope.errors = "You have an outstanding loan repayment to complete. Please visit client tab to log in and confirm its status";
-        }
-    });
-
-    console.log($scope.errors);
-
+    $scope.error = null;
 
     $scope.service_fee = localStorage.getItem('service_fee');
     $scope.interest = localStorage.getItem('interest');

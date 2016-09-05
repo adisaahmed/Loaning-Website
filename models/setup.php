@@ -19,20 +19,20 @@ $list = array();
 $table = "users";
 $sql = "CREATE TABLE IF NOT EXISTS $table (
     id INT( 11 ) AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR( 50 ) NOT NULL,
-    last_name VARCHAR( 150 ) NOT NULL,
-    title VARCHAR (20) NOT NULL,
-    gender VARCHAR (10) NOT NULL,
-    age INT (5) NOT NULL,
-    bvn INT NOT NULL,
-    marital_status VARCHAR (50) NOT NULL,
-    dependants INT (5) NOT NULL,
-    street VARCHAR (255) NOT NULL,
-    state VARCHAR(255) NOT NULL,
-    city VARCHAR (255) NOT NULL, 
-    email VARCHAR( 255 ) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    phone INT NOT NULL);";
+    first_name VARCHAR( 50 ),
+    last_name VARCHAR( 150 ),
+    title VARCHAR (20),
+    gender VARCHAR (10),
+    bvn VARCHAR(255),
+    marital_status VARCHAR (50),
+    dependants INT,
+    street VARCHAR (255),
+    state VARCHAR(255),
+    city VARCHAR (255), 
+    email VARCHAR( 255 ),
+    password VARCHAR(255),
+    phone INT
+    );";
 
 array_push($list, $sql);
 

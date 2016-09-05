@@ -96,15 +96,18 @@ class LoanRequest extends Model
 class Users extends Model
 {
 
-    static public function create($db, $email, $password, $first_name, $last_name, $bvn, $title, $gender, $age, $phone, $marital_status, $dependants, $street, $state, $city)
+    static public function create($db, $email, $password, $first_name, $last_name, $bvn, $title, $gender, $dob, $phone, $marital_status, $dependants, $street, $city, $state)
     {
-        $query = $db->prepare('INSERT INTO users (email, password, first_name, last_name, bvn, title, gender, age, phone, marital_status, dependants, street, state, city)'
-            . "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $query->execute(array($email, password_hash($password, PASSWORD_DEFAULT), $first_name, $last_name, $bvn, $title, $gender, $age, $phone, $marital_status, $dependants, $street, $state, $city));
+
+        $query = $db->prepare('INSERT INTO users (email, password, first_name, last_name, bvn, title, gender, phone, marital_status, dependants, street, city, state)'
+            . "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $query->execute(array($email, password_hash($password, PASSWORD_DEFAULT), $first_name, $last_name, $bvn, $title, $gender, $phone, $marital_status, $dependants, $street, $city, $state));
 
         $obj = $query->fetch();
-
-        return Access::create($db, $email, $password);
+        
+        Access::create($db, $email, $password);
+        
+        return $obj;
     }
 }
 

@@ -212,7 +212,7 @@
                 <div class="form-group form_wrap clearfix">
                     <div class="col-sm-4">
                         <label for="sur">Title:</label> <br>
-                        <select name="title" id="title" form="carform" required>
+                        <select name="title" id="title" required>
                             <option value="Mr." class="capitalize">Mr.</option>
                             <option value="Mrs." class="capitalize">Mrs.</option>
                             <option value="Ms." class="capitalize">Ms.</option>
@@ -235,7 +235,7 @@
                     </div>
                     <div class="col-sm-4">
                         <label for="sur">Gender:</label>
-                        <select name="gender" form="carform" id="gender" required>
+                        <select name="gender" id="gender" required>
                             <option value="Male" class="capitalize">Male</option>
                             <option value="Female" class="capitalize">Female</option>
                         </select>
@@ -262,7 +262,7 @@
                     </div>
                     <div class="col-sm-4">
                         <label for="sur">State:</label> <br>
-                        <select name="state" id="state" form="carform" required>
+                        <select name="state" id="state" required>
                             <option value="Abia" class="capitalize">Abia</option>
                             <option value="Adamawa" class="capitalize">Adamawa</option>
                             <option value="Akwa Ibom" class="capitalize">Akwa Ibom</option>
@@ -315,7 +315,7 @@
                     </div>
                     <div class="col-sm-4">
                         <label for="sur">Marital Status</label> <br>
-                        <select name="marital_status" id="marital_status" form="carform" required>
+                        <select name="marital_status" id="marital_status" required>
                             <option value="single" class="capitalize">single</option>
                             <option value="married" class="capitalize">married</option>
                             <option value="divorced" class="capitalize">divorced</option>
@@ -342,7 +342,8 @@
                         <input name="password" type="password" id="password" ng-model="password" class="input" required>
                     </div>
                     <div class="col-sm-4">
-                        <label for="sur">Confirm Password</label> <br>
+                        <label for="sur">Confirm Password</label>
+                        <small style="color: red" ng-show="error">[[error]]</small><br>
                         <input name="verify_password" type="password" id="verify_password" ng-model="verify" ng-change="checkPassword()" class="input" required>
                     </div>
                 </div>
@@ -360,9 +361,9 @@
                     <br><br>
                     Do you agree to our Privacy Policy and Terms and Conditions and give us permission to conduct a credit assessment?
                     <div class="agree">
-								<span>
-									<input type="checkbox" name="terms" ng-model="confirm"> Yes, I do
-								</span>
+                        <span>
+                            <input type="checkbox" name="terms" ng-model="confirm"> Yes, I do
+                        </span>
                     </div>
                 </div>
                 <button ng-show="confirm && error == null" type="submit" style="color: white; font-size: 20px">Complete</button>

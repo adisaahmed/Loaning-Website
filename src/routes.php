@@ -94,7 +94,7 @@ $app->post('/cash', function($request, $response, $args){
     $bvn = $request->getParam('bvn');
     $title = $request->getParam('title');
     $gender = $request->getParam('gender');
-    $age = $request->getParam('age');
+    $date_of_birth = $request->getParam('date_of_birth');
     $phone = $request->getParam('phone');
     $marital_status = $request->getParam('marital_status');
     $dependants = $request->getParam('dependants');
@@ -102,11 +102,13 @@ $app->post('/cash', function($request, $response, $args){
     $city = $request->getParam('city');
     $state = $request->getParam('state');
 
-    \App\models\Users::create($pdo, $email, $password, $first_name, $last_name, $bvn, $title, $gender, $age, $phone, $marital_status, $dependants, $street, $state, $city);
+    $user = \App\models\Users::create($pdo, $email, $password, $first_name, $last_name, $bvn, $title, $gender, $date_of_birth, $phone, $marital_status, $dependants, $street, $city, $state);
 
     \App\models\LoanRequest::create($pdo, $email, $borrow, $total, $interest, $serviceFee);
 
-    return $response->withRedirect($container->router->pathFor('index'));
+    $this->auth->attempt($user['email'], $user['password']);
+
+    return $response->withRedirect($container->router->pathFor('status'));
 
 });
 
@@ -134,6 +136,10 @@ $app->group('/user', function (){
         return $response->withRedirect($this->router->pathFor('client'));
         
     })->setName('logout');
+
+    $this->get('/more', function ($request, $response){
+        return $this->view->render($response, 'more.twig');
+    });
 
 })->add(new AuthMiddleware($container));
 
@@ -172,8 +178,5 @@ $app->group('', function (){
         }
 
         return $this->view->render($response, 'status.twig');
-    });
-    $this->get('/more', function ($request, $response){
-        return $this->view->render($response, 'more.twig');
     });
 })->add(new GuestMiddleware($container));
