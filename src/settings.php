@@ -23,9 +23,9 @@ return [
             'dbname' => 'efflux_ecogeneral'
         ],
         'default_address' => [
-            'email' => 'styccs@gmail.com',
-            'name' => 'Admin',
-            'password' => '600ts!ll'
+            'email' => 'admin@tm30.net',
+            'name' => 'Hello',
+            'password' => 'ademola123?'
         ],
         'admin_address' => [
             'email' => 'styccs@gmail.com',

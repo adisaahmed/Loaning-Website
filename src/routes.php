@@ -19,7 +19,7 @@ use App\Services\Mail;
 
 $app->get('/', function ($request, $response){
     return $this->view->render($response, 'home.twig');
-});
+})->setName('index');
 
 $app->get('/about', function($request, $response, $args) {
     return $this->view->render($response, 'about.twig');
@@ -107,7 +107,7 @@ $app->post('/cash', function($request, $response, $args){
 
     $user = \App\models\Users::create($pdo, $email, $password, $first_name, $last_name, $bvn, $title, $gender, $date_of_birth, $phone, $marital_status, $dependants, $street, $city, $state);
 
-    $loan = \App\models\LoanRequest::create($pdo, $email, $borrow, $total, $interest, $serviceFee);
+    $loan = \App\models\LoanRequest::create($pdo, $email, $borrow, $total, $interest, $serviceFee, $repayment_date);
 
     $mail = Mail::send_verification_mails($user['email'], $user['first_name']. ''. $user['last_name'], $loan['total'], $loan['repayment_date']);
 

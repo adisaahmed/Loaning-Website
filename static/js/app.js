@@ -21,11 +21,11 @@ _app.controller('CalculateController', function ($scope, $window) {
         $scope.interestRate = parseFloat(0.0034 * $scope.date_value * $scope.borrow);
         $scope.interest = parseFloat($scope.interestRate) + parseFloat($scope.serviceFee);
         $scope.total = parseFloat($scope.borrow) + parseFloat($scope.interest);
+        $scope._date = new Date(new Date().getTime()+($scope.date_value*24*60*60*1000));
     };
 
     $scope.init = function () {
-
-        var num = 0.0;
+        
         $scope.min = 1000.0;
         $scope.max = 5000.0;
 
@@ -56,23 +56,24 @@ _app.controller('CalculateController', function ($scope, $window) {
         $scope.reCalculate();
     };
 
-    $scope.dateChange = function () {
-        $scope._date = new Date(new Date().getTime()+($scope.date_value*24*60*60*1000));
-        $scope.reCalculate();
-    };
+    // $scope.dateChange = function () {
+    //     $scope.reCalculate();
+    // };
 
     $scope.submit = function () {
         $.post('/compute', {
             serviceFee: $scope.serviceFee,
             interest: $scope.interest,
             total: $scope.total,
-            borrow: $scope.borrow
+            borrow: $scope.borrow,
+            repayment_date: $scope._date
         }, function (data, status) {
             localStorage.setItem("service_fee", $scope.serviceFee);
             localStorage.setItem("interest", $scope.interest);
             localStorage.setItem("total", $scope.total);
             localStorage.setItem('borrow', $scope.borrow);
             localStorage.setItem('date_value', $scope.date_value);
+            localStorage.setItem('repayment_date', $scope._date);
         });
         location.href = '/cash';
     }
