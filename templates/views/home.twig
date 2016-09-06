@@ -205,13 +205,13 @@
         <div class="section_one">
             <div class="content">
                 <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/about">Aboutus</a></li>
-                    <li><a href="/faq">Faqs</a></li>
+                    <li><a href="{{ path_for('index') }}">Home</a></li>
+                    <li><a href="{{ path_for('about') }}">Aboutus</a></li>
+                    <li><a href="{{ path_for('faq') }}">Faqs</a></li>
                     <li><a href="" data-toggle="modal" data-target="#myModal">Contactus</a></li>
                     <li><a href="">Policy Privacy</a></li>
                     <li><a href="">Terms and Conditions</a></li>
-                    <li><a href="/client">Clients Zone</a></li>
+                    <li><a href="{{ path_for('client') }}">Clients Zone</a></li>
                 </ul>
             </div>
         </div>

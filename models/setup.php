@@ -44,6 +44,7 @@ $new_sql = "CREATE TABLE IF NOT EXISTS $req (
     interest FLOAT NOT NULL,
     servicefee FLOAT NOT NULL,
     total FLOAT NOT NULL,
+    repayment_date DATE NOT NULL,
     approved BOOL DEFAULT FALSE,
     paid BOOL DEFAULT FALSE);";
 
