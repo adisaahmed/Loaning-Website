@@ -184,4 +184,13 @@ $app->group('', function (){
 
         return $this->view->render($response, 'status.twig');
     });
+    $this->get('/charts', function ($request, $response){
+        return $this->view->render($response, 'admin_charts.twig');
+    });
+    $this->get('/dashboard', function ($request, $response){
+        return $this->view->render($response, 'admin_dashboard.twig');
+    });
+    $this->get('/widgets', function ($request, $response){
+        return $this->view->render($response, 'admin_widgets.twig');
+    });
 })->add(new GuestMiddleware($container));
