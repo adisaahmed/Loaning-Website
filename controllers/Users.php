@@ -7,7 +7,6 @@
  * Time: 11:58 AM
  */
 
-use 
 
 class Users
 {

@@ -21,6 +21,15 @@ return [
             'user' => 'efflux_general',
             'pass' => '8erd+g%k*Cv%',
             'dbname' => 'efflux_ecogeneral'
+        ],
+        'default_address' => [
+            'email' => 'admin@tm30.net',
+            'name' => 'Hello',
+            'password' => 'ademola123?'
+        ],
+        'admin_address' => [
+            'email' => 'styccs@gmail.com',
+            'name' => 'Admin',
         ]
     ],
 ];

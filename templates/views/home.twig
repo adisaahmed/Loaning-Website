@@ -112,7 +112,7 @@
                             </td>
                             <td class="slide" style="width:495px">
                                 <span>[[start | number]] days</span><span style="float:right;" ng-cloak>[[end | number]] days</span>
-                                <input type="range" min="[[start]]" max="[[end]]" value="[[date_value]]" ng-model="date_value" ng-change="dateChange()">
+                                <input type="range" min="[[start]]" max="[[end]]" value="[[date_value]]" ng-model="date_value" ng-change="valueChanges()">
                             </td>
                             <td class="plus" style="width:30px; float:right; padding-left:13px;">
                                 <a href="" style="font-size:20px;">
@@ -205,13 +205,13 @@
         <div class="section_one">
             <div class="content">
                 <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/about">Aboutus</a></li>
-                    <li><a href="/faq">Faqs</a></li>
+                    <li><a href="{{ path_for('index') }}">Home</a></li>
+                    <li><a href="{{ path_for('about') }}">Aboutus</a></li>
+                    <li><a href="{{ path_for('faq') }}">Faqs</a></li>
                     <li><a href="" data-toggle="modal" data-target="#myModal">Contactus</a></li>
                     <li><a href="">Policy Privacy</a></li>
                     <li><a href="">Terms and Conditions</a></li>
-                    <li><a href="/client">Clients Zone</a></li>
+                    <li><a href="{{ path_for('client') }}">Clients Zone</a></li>
                 </ul>
             </div>
         </div>

@@ -11,20 +11,22 @@ require __DIR__. '/../models/Model.php';
 
 require __DIR__. '/dependencies.php';
 
+use App\Services\Mail;
+
 //$app->get('/', function ($request, $response, $args) {
 //    return $this->renderer->render($response, 'home.phtml', $args);
 //})->setName('index');
 
 $app->get('/', function ($request, $response){
     return $this->view->render($response, 'home.twig');
-});
+})->setName('index');
 
 $app->get('/about', function($request, $response, $args) {
     return $this->view->render($response, 'about.twig');
 })->setName('about');
 
 $app->post('/compute', function ($request, $response, $args) {
-    $_SESSION['data'] = array("interest"=>$request->getParam('interest'), "serviceFee"=>$request->getParam('serviceFee'), "total"=>$request->getParam('total'), "borrow"=>$request->getParam('borrow'));
+    $_SESSION['data'] = array("interest"=>$request->getParam('interest'), "serviceFee"=>$request->getParam('serviceFee'), "total"=>$request->getParam('total'), "borrow"=>$request->getParam('borrow'), "repayment_date"=>$request->getParam('repayment_date'));
 });
 
 $app->get('/faq', function($request, $response, $args) {
@@ -68,6 +70,7 @@ $app->post('/cash', function($request, $response, $args){
     $interest = $data['interest'];
     $borrow = $data['borrow'];
     $serviceFee = $data['serviceFee'];
+    $repayment_date = $data['repayment_date'];
 
     if (!isset($total) && !isset($interest) && !isset($borrow) && !isset($serviceFee)) {
         return $response->withRedirect($container->router->pathFor('index'));
@@ -104,11 +107,13 @@ $app->post('/cash', function($request, $response, $args){
 
     $user = \App\models\Users::create($pdo, $email, $password, $first_name, $last_name, $bvn, $title, $gender, $date_of_birth, $phone, $marital_status, $dependants, $street, $city, $state);
 
-    \App\models\LoanRequest::create($pdo, $email, $borrow, $total, $interest, $serviceFee);
+    $loan = \App\models\LoanRequest::create($pdo, $email, $borrow, $total, $interest, $serviceFee, $repayment_date);
+
+    $mail = Mail::send_verification_mails($user['email'], $user['first_name']. ''. $user['last_name'], $loan['total'], $loan['repayment_date']);
 
     $this->auth->attempt($user['email'], $user['password']);
 
-    return $response->withRedirect($container->router->pathFor('status'));
+    return $this->view->render($response, 'status.twig');
 
 });
 
