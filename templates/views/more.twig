@@ -171,31 +171,31 @@
             <div class="section_one">
                 <div class="content">
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="aboutus.html">Aboutus</a></li>
-                        <li><a href="faq.html">Faqs</a></li>
-                        <li><a href="contactus.html">Contactus</a></li>
+                        <li><a href="{{ path_for('index') }}">Home</a></li>
+                        <li><a href="{{ path_for('about') }}">Aboutus</a></li>
+                        <li><a href="{{ path_for('faq') }}">Faqs</a></li>
+                        <li><a href="" data-toggle="modal" data-target="#myModal">Contactus</a></li>
                         <li><a href="">Policy Privacy</a></li>
                         <li><a href="">Terms and Conditions</a></li>
-                        <li><a href="client_zone.html">Clients Zone</a></li>
+                        <li><a href="{{ path_for('client') }}">Clients Zone</a></li>
                     </ul>
                 </div>
             </div>
             <div class="section_two">
                 <div class="footer_sub">
                     <strong>Fast Loans</strong>
-                    <span><a href="fast_loan.html">fast loans</a></span>
-                    <span><a href="payday_loan.html">payday loans</a></span>
+                    <span><a href="{{ path_for('fast') }}">fast loans</a></span>
+                    <span><a href="{{ path_for('payday') }}">payday loans</a></span>
                 </div>
                 <div class="footer_sub">
                     <strong>Cash Loans</strong>
-                    <span><a href="easy_loan.html">easy loans</a></span>
-                    <span><a href="short_loan.html">short terms loan</a></span>
+                    <span><a href="{{ path_for('easy') }}">easy loans</a></span>
+                    <span><a href="{{ path_for('short') }}">short terms loan</a></span>
                 </div>
                 <div class="footer_sub">
                     <strong>Personal Loans</strong>
-                    <span><a href="what_loan.html">what is a loan</a></span>
-                    <span><a href="online_loan.html">online loan</a></span>
+                    <span><a href="{{ path_for('what') }}">what is a loan</a></span>
+                    <span><a href="{{ path_for('online_loan') }}">online loan</a></span>
                 </div>
             </div>
             <div class="section_three">
