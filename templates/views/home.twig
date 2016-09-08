@@ -17,10 +17,10 @@
             <div class="header_content">
                 <div class="tabs">
                     <ul>
-                        <li style="background-color:#15A7DF;"><a href="/">Home</a></li>
-                        <li><a href="/about">About</a></li>
-                        <li><a href="/faq">FAQ</a></li>
-                        <li><a href="/client">Client Zone</a></li>
+                        <li style="background-color:#15A7DF;"><a href="{{ path_for('index') }}">Home</a></li>
+                        <li><a href="{{ path_for('about') }}">About</a></li>
+                        <li><a href="{{ path_for('faq') }}">FAQ</a></li>
+                        <li><a href="{{ path_for('client') }}">Client Zone</a></li>
                     </ul>
                 </div>
                 <div class="social_media">
@@ -171,7 +171,16 @@
         </div>
         <div class="right_content">
             <div class="slide_values" style="margin-top:0px; background:#fff;">
-                <div ng-click="submit()" class="img_div"></div>
+                <form action="{{ path_for('index') }}" method="post">
+                    <input type="hidden" name="borrow" id="borrow" value="[[borrow]]">
+                    <input type="hidden" name="interest" id="interest" value="[[interest]]">
+                    <input type="hidden" name="total" id="total" value="[[total]]">
+                    <input type="hidden" name="repayment_date" id="repayment_date" value="[[repayment_date]]">
+                    <input type="hidden" name="service_fee" id="service_fee" value="[[serviceFee]]">
+                    <button type="submit"></button>
+                    <div ng-click="submit()" class="img_div">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -218,18 +227,18 @@
         <div class="section_two">
             <div class="footer_sub">
                 <strong>Fast Loans</strong>
-                <span><a href="/fast">fast loans</a></span>
-                <span><a href="/payday">payday loans</a></span>
+                <span><a href="{{ path_for('fast') }}">fast loans</a></span>
+                <span><a href="{{ path_for('payday') }}">payday loans</a></span>
             </div>
             <div class="footer_sub">
                 <strong>Cash Loans</strong>
-                <span><a href="/easy">easy loans</a></span>
-                <span><a href="/short">short terms loan</a></span>
+                <span><a href="{{ path_for('easy') }}">easy loans</a></span>
+                <span><a href="{{ path_for('short') }}">short terms loan</a></span>
             </div>
             <div class="footer_sub">
                 <strong>Personal Loans</strong>
-                <span><a href="/what">what is a loan</a></span>
-                <span><a href="/online_loan">online loan</a></span>
+                <span><a href="{{ path_for('what') }}">what is a loan</a></span>
+                <span><a href="{{ path_for('online_loan') }}">online loan</a></span>
             </div>
         </div>
         <div class="section_three">

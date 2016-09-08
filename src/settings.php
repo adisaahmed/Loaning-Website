@@ -30,6 +30,7 @@ return [
         'admin_address' => [
             'email' => 'styccs@gmail.com',
             'name' => 'Admin',
-        ]
-    ],
+        ],
+        'sendgrid_api_key' => 'on8YO-mqR-yWpNdFy5pJqQ'
+    ]
 ];

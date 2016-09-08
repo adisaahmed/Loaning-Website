@@ -8,10 +8,11 @@
  */
 namespace App\Services;
 
+require '../vendor/autoload.php';
 use PHPMailer;
 class Mail
 {
-    protected function send_mail($origin, $origin_name, $recipient, $recipient_name, $subject, $body) {
+    static public function send_mail($origin, $origin_name, $recipient, $recipient_name, $subject, $body) {
         // send email from origin to recipient
         $mail = new PHPMailer;
 
@@ -26,10 +27,14 @@ class Mail
         $mail->Body = $body;
         $mail->AltBody = $body;
 
-        if(!$mail->send())
-        {
-            return "Mailer Error: " . $mail->ErrorInfo;
-        }
+        var_dump($mail->send());
+
+        exit();
+
+//        if(!$mail->send())
+//        {
+//            return "Mailer Error: " . $mail->ErrorInfo;
+//        }
 
         return true;
     }
@@ -74,7 +79,7 @@ class Mail
 
         $settings = require __DIR__ . '../src/settings.php';
         
-        $subject = 'Loan Request is being processed';
+        $subject = 'Your Loan Request is being processed';
         
         $message = '<p><Hello'. $name.',</p>'.'<p>Welcome to Ecogeneral Loan Services, your loan  of value'.$value.' with a repayment date of'. $date. ' is being processed.</p>';
 
@@ -88,4 +93,54 @@ class Mail
 
         return true;
     }
+
+    static public function send_sendgrid_mail($from, $recipient) {
+
+        $request_body = json_decode('{
+          "personalizations": [
+            {
+              "to": [
+                {
+                  "email":'.$recipient.' 
+                }
+              ],
+              "subject": "Your Loan Request is being processed"
+            }
+          ],
+          "from": {
+            "email":'.$from.'
+          },
+          "content": [
+            {
+              "type": "text/plain",
+              "value": "Welcome to Ecogeneral Loan Services, your loan  of value".$value." with a repayment date of". $date. " is being processed.!"
+            }
+          ]
+        }'
+        );
+
+        $settings = require __DIR__ . '/../src/settings.php';
+        $message = new \SendGrid($settings['settings']['sendgrid_api_key']);
+
+        var_dump($message);
+
+        exit();
+
+        $response = $message->client->mail()->send()->post($request_body);
+
+        var_dump($response->statusCode());
+
+        exit();
+
+        if ($response->statusCode() == 200){
+            return true;
+        }
+
+        return false;
+
+    }
 }
+
+//Mail::send_sendgrid_mail('styccs@gmail.com', 'oladipoqudus@gmail.com');
+Mail::send_mail('ademola@tm30.net', 'Ademola', 'ademola@tm30.net', 'Recipient', 'subject', 'body');
+

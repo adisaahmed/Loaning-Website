@@ -26,7 +26,9 @@ $app->get('/about', function($request, $response, $args) {
 })->setName('about');
 
 $app->post('/compute', function ($request, $response, $args) {
-    $_SESSION['data'] = array("interest"=>$request->getParam('interest'), "serviceFee"=>$request->getParam('serviceFee'), "total"=>$request->getParam('total'), "borrow"=>$request->getParam('borrow'), "repayment_date"=>$request->getParam('repayment_date'));
+    $date = strtotime($request->getParam('repayment_date'));
+    $newformat = date('Y-m-d',$date);
+    $_SESSION['data'] = array("interest"=>$request->getParam('interest'), "serviceFee"=>$request->getParam('serviceFee'), "total"=>$request->getParam('total'), "borrow"=>$request->getParam('borrow'), "repayment_date"=>$newformat);
 });
 
 $app->get('/faq', function($request, $response, $args) {
@@ -43,23 +45,23 @@ $app->get('/cash', function($request, $response, $args) {
 
 $app->get('/online', function($request, $response, $args) {
     return $this->view->render($response, 'online.twig');
-});
+})->setName('online_loan');
 
 $app->get('/easy', function($request, $response, $args) {
     $this->view->render($response, 'easy.twig');
-});
+})->setName('easy');
 
 $app->get('/short', function($request, $response, $args) {
     $this->view->render($response, 'short.twig');
-});
+})->setName('short');
 
 $app->get('/what', function($request, $response, $args) {
     $this->view->render($response, 'what.twig');
-});
+})->setName('what');
 
 $app->get('/payday', function($request, $response, $args) {
     $this->view->render($response, 'payday.twig');
-});
+})->setName('payday');
 
 $app->post('/cash', function($request, $response, $args){
 
@@ -125,7 +127,7 @@ $app->group('/user', function (){
 
     $this->get('/agreement', function($request, $response, $args) {
         $this->view->render($response, 'agreement.twig');
-    });
+    })->setName('agreement');
 
     $this->get('/status', function($request, $response, $args) {
         $this->view->render($response, 'status.twig');
@@ -133,7 +135,7 @@ $app->group('/user', function (){
 
     $this->get('/approved', function($request, $response, $args) {
         $this->view->render($response, 'approved.twig');
-    });
+    })->setName('approved');
 
     $this->get('/logout', function ($request, $response){
         
@@ -144,7 +146,7 @@ $app->group('/user', function (){
 
     $this->get('/more', function ($request, $response){
         return $this->view->render($response, 'more.twig');
-    });
+    })->setName('more');
 
 })->add(new AuthMiddleware($container));
 
