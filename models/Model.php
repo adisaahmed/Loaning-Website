@@ -68,11 +68,11 @@ abstract class Model
 class LoanRequest extends Model
 {
 
-    static public function create($db, $email, $amount, $total, $interest, $serviceFee)
+    static public function create($db, $email, $amount, $total, $interest, $serviceFee, $repayment_date)
     {
-        $query = $db->prepare('INSERT INTO loan_request (email, amount, total, interest, servicefee)'
-            . "VALUES (?, ?, ?, ?, ?)");
-        $query->execute(array($email, $amount, $total, $interest, $serviceFee));
+        $query = $db->prepare('INSERT INTO loan_request (email, amount, total, interest, servicefee, repayment_date)'
+            . "VALUES (?, ?, ?, ?, ?, ?)");
+        $query->execute(array($email, $amount, $total, $interest, $serviceFee, $repayment_date));
         $obj = $query->fetch();
         return $obj;
     }
