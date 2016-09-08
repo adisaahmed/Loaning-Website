@@ -191,8 +191,8 @@ $app->group('', function (){
     });
     $this->get('/dashboard', function ($request, $response){
         return $this->view->render($response, 'admin_dashboard.twig');
-    });
-    $this->get('/widgets', function ($request, $response){
+    })->setName('dashboard');
+    $this->get('/requests', function ($request, $response){
         return $this->view->render($response, 'admin_widgets.twig');
-    });
+    })->setName('requests');
 })->add(new GuestMiddleware($container));
