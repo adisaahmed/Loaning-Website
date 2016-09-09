@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ecogeneral - Widgets</title>
     <link rel="stylesheet" type="text/css" href="../static/css/chart.css">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/datepicker3.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/datepicker3.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
 
     <!--Icons-->
-    <script src="js/lumino.glyphs.js"></script>
+    <script src="../js/lumino.glyphs.js"></script>
 
     <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
+    <script src="../js/html5shiv.js"></script>
+    <script src="../js/respond.min.js"></script>
     <![endif]-->
 
 </head>
@@ -45,15 +45,16 @@
 
 <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
     <ul class="nav menu">
-        <li class="active"><a href="{{ path_for('dashboard') }}"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Dashboard</a></li>
-        <li><a href="{{ path_for('requests') }}"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Loan Requests</a></li>
+        <li><a href="{{ path_for('dashboard') }}"><svg class="glyph stroked dashboard-dial"></svg> Dashboard</a></li>
+        <li class="active"><a href="{{ path_for('requests') }}"><svg class="glyph stroked calendar"></svg> Loan Requests</a></li>
+        <li><a href="{{ path_for('users') }}"><svg class="glyph stroked user"></svg> Users</a></li>
     </ul>
 </div><!--/.sidebar-->
 
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+            <li><a href="#"><svg class="glyph stroked home"></svg></a></li>
             <li class="active">Loan Requests</li>
         </ol>
     </div><!--/.row-->
@@ -104,14 +105,13 @@
     </div><!--/.row-->
 </div>	<!--/.main-->
 
-
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/chart.min.js"></script>
-<script src="js/chart-data.js"></script>
-<script src="js/easypiechart.js"></script>
-<script src="js/easypiechart-data.js"></script>
-<script src="js/bootstrap-datepicker.js"></script>
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/chart.min.js"></script>
+<script src="../js/chart-data.js"></script>
+<script src="../js/easypiechart.js"></script>
+<script src="../js/easypiechart-data.js"></script>
+<script src="../js/bootstrap-datepicker.js"></script>
 <script>
     $('#calendar').datepicker({
     });

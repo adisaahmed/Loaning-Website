@@ -106,7 +106,17 @@ class LoanRequest extends Model
         return $result;
     }
 
+    static public function getLatest($db, $email) {
+        $query = $db->prepare('SELECT * FROM loan_request WHERE email="'.$email.'" AND paid=FALSE');
+        $query->execute();
+        $result = $query->fetch();
+
+        return $result;
+    }
+
 }
+
+
 
 class Users extends Model
 {
@@ -123,6 +133,14 @@ class Users extends Model
         Access::create($db, $email, $password);
         
         return $obj;
+    }
+
+    static public function all($db) {
+        $query = $db->prepare('SELECT * FROM users');
+        $query->execute();
+        $result = $query->fetchAll();
+
+        return $result;
     }
 }
 

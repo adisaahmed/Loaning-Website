@@ -17,13 +17,11 @@
             <div class="header_content">
                 <div class="tabs">
                     <ul>
-                        <li><a href="">Status</a></li>
-                        <li><a href="">More Cash</a></li>
+                        <li><a href="{{ path_for('status') }}">Status</a></li>
+                        <li><a href="{{ path_for('more') }}">More Cash</a></li>
                     </ul>
                 </div>
-                <button>
-                    Logout
-                </button>
+                <a href="{{ path_for('logout') }}"><button>Logout</button></a>
                 <div class="social_media">
                     <ul>
                         <li><a href="http://facebook.com"><i class="fa fa-facebook-square font_awesome" aria-hidden="true"></i></a></li>
@@ -54,7 +52,7 @@
         <div class="record_wrap">
             <div class="record_button first_color">
                 <div class="left">
-                    <p class="bold">&#8358;4000.00</p>
+                    <p class="bold">&#8358;{{ loan.total| number_format }}</p>
                     <p class="small">Total Borrowing</p>
                 </div>
                 <div class="right">
@@ -63,7 +61,7 @@
             </div>
             <div class="record_button second_color">
                 <div class="left">
-                    <p class="bold">1/9/2016</p>
+                    <p class="bold">{{ loan.repayment_date }}</p>
                     <p class="small">Pay Day</p>
                 </div>
                 <div class="right">
@@ -72,7 +70,7 @@
             </div>
             <div class="record_button first_color">
                 <div class="left">
-                    <p class="bold">26 days</p>
+                    <p class="bold">{{ loan.repayment_date - today|date("Y/m/d") }}</p>
                     <p class="small">Countdown</p>
                 </div>
                 <div class="right">
