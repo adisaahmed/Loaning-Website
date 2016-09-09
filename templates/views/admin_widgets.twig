@@ -61,78 +61,41 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading"><svg class="glyph stroked email"><use xlink:href="#stroked-email"></use></svg> Contact Form</div>
+                <div class="panel-heading"><svg class="glyph stroked email"><use xlink:href="#stroked-email"></use></svg> Loan Requests</div>
                 <div class="panel-body">
-                    {#<form class="form-horizontal" action="" method="post">#}
-                        {#<fieldset>#}
-                            {#<!-- Name input-->#}
-                            {#<div class="form-group">#}
-                                {#<label class="col-md-3 control-label" for="name">Name</label>#}
-                                {#<div class="col-md-9">#}
-                                    {#<input id="name" name="name" type="text" placeholder="Your name" class="form-control">#}
-                                {#</div>#}
-                            {#</div>#}
-
-                            {#<!-- Email input-->#}
-                            {#<div class="form-group">#}
-                                {#<label class="col-md-3 control-label" for="email">Your E-mail</label>#}
-                                {#<div class="col-md-9">#}
-                                    {#<input id="email" name="email" type="text" placeholder="Your email" class="form-control">#}
-                                {#</div>#}
-                            {#</div>#}
-
-                            {#<!-- Message body -->#}
-                            {#<div class="form-group">#}
-                                {#<label class="col-md-3 control-label" for="message">Your message</label>#}
-                                {#<div class="col-md-9">#}
-                                    {#<textarea class="form-control" id="message" name="message" placeholder="Please enter your message here..." rows="5"></textarea>#}
-                                {#</div>#}
-                            {#</div>#}
-
-                            {#<!-- Form actions -->#}
-                            {#<div class="form-group">#}
-                                {#<div class="col-md-12 widget-right">#}
-                                    {#<button type="submit" class="btn btn-default btn-md pull-right">Submit</button>#}
-                                {#</div>#}
-                            {#</div>#}
-                        {#</fieldset>#}
-                    {#</form>#}
-                    <h1>Data Tables</h1>
                     <div class="table">
                         <table border="1">
                             <tr>
-                                <th>Date Requested</th>
                                 <th>Date to return</th>
                                 <th>Amount Requested</th>
                                 <th>Interest</th>
                                 <th>Service Fee</th>
+                                <th>Total Payable</th>
                                 <th>Email Address</th>
                                 <th>Action</th>
                             </tr>
-                            <tr>
-                                <td>1/2/2016</td>
-                                <td>10/3/2016</td>
-                                <td>&#8358;250,000</td>
-                                <td>&#8358;100,000</td>
-                                <td>&#8358;20,000</td>
-                                <td>info@gmail.com</td>
-                                <td>
-                                    <button>Update</button>
-                                    <button>Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1/2/2016</td>
-                                <td>10/3/2016</td>
-                                <td>&#8358;250,000</td>
-                                <td>&#8358;100,000</td>
-                                <td>&#8358;20,000</td>
-                                <td>info@gmail.com</td>
-                                <td>
-                                    <button>Update</button>
-                                    <button>Delete</button>
-                                </td>
-                            </tr>
+                            {% for request in requests %}
+                                <tr>
+                                    <td>{{ request.repayment_date|date('Y-m-d H:i:s') }}</td>
+                                    <td>&#8358;{{ request.amount|number_format(2, '.', ',') }}</td>
+                                    <td>&#8358;{{ request.interest|number_format(2, '.', ',') }}</td>
+                                    <td>&#8358;{{ request.servicefee|number_format(2, '.', ',') }}</td>
+                                    <td>&#8358;{{ request.total|number_format(2, '.', ',') }}</td>
+                                    <td>info@gmail.com</td>
+                                    <td>
+                                        {% if request.paid %}
+                                            <button class="btn-sm btn-success" style="width: 120px;">PAID</button>
+                                        {% else %}
+                                            <a href="/requests/1/paid" class="btn-sm btn-primary" style="width: 120px;">MARK AS PAID</a>
+                                        {% endif %}
+                                        {% if request.paid %}
+                                            <button class="btn-sm btn-success" style="width: 120px;">APPROVED</button>
+                                        {% else %}
+                                            <a href="/requests/1/approve" class="btn-sm btn-primary" style="width: 120px">APPROVE</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
                         </table>
                     </div>
                 </div>

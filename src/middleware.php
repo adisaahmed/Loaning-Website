@@ -84,6 +84,21 @@ class AuthMiddleware extends Middleware
     }
 }
 
+class AdminMiddleware extends Middleware
+{
+
+    public function __invoke($request, $response, $next)
+    {
+
+        if (!$this->container->auth->is_admin()) {
+
+            return $response->withRedirect($this->container->router->pathFor('dashboard'));
+        }
+
+        return $next($request, $response);
+    }
+}
+
 class ValidationErrorsMiddleware extends Middleware
 {
 
@@ -134,6 +149,28 @@ class Auth
     public function check() {
         return isset($_SESSION['user']);
     }
+
+    public function is_admin() {
+        return isset($_SESSION['admin']);
+    }
+
+    public function admin_attempt($email, $password) {
+
+        $db = $this->container['db'];
+
+        $user = \App\models\Admin::findByEmail($db, $email);
+
+        if (!$user || $user['is_admin'] == false) {
+            return false;
+        }
+
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['admin'] = $user['email'];
+            return true;
+        }
+        return false;
+    }
+
 
     public function user() {
 

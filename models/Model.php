@@ -17,11 +17,6 @@ abstract class Model
         $this->db = $db;
     }
 
-    protected function update()
-    {
-        throw new Exception('Not Implemented Error');
-    }
-
     protected function delete($id)
     {
         $klass = strtolower(static::class);
@@ -86,6 +81,31 @@ class LoanRequest extends Model
 
         return $result;
     }
+
+    static public function all($db) {
+        $query = $db->prepare('SELECT * FROM loan_request');
+        $query->execute();
+        $result = $query->fetchAll();
+
+        return $result;
+    }
+
+    static public function approve($db, $id) {
+        $query = $db->prepare('UPDATE loan_request SET approved=TRUE WHERE id="'.$id.'"');
+        $query->execute();
+        $result = $query->fetch();
+
+        return $result;
+    }
+
+    static public function paid($db, $id) {
+        $query = $db->prepare('UPDATE loan_request SET paid=TRUE WHERE id="'.$id.'"');
+        $query->execute();
+        $result = $query->fetch();
+
+        return $result;
+    }
+
 }
 
 class Users extends Model
@@ -114,6 +134,17 @@ class Access extends Model
         $query = $db->prepare('INSERT INTO access (email, password)'
             . "VALUES (?, ?)");
         $query->execute(array($email, password_hash($password, PASSWORD_DEFAULT)));
+
+        $obj = $query->fetch();
+
+        return $obj;
+    }
+
+    static public function create_admin($db, $email, $password)
+    {
+        $query = $db->prepare('INSERT INTO access (email, password, is_admin)'
+            . "VALUES (?, ?, ?)");
+        $query->execute(array($email, password_hash($password, PASSWORD_DEFAULT), true));
 
         $obj = $query->fetch();
 

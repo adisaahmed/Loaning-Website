@@ -186,13 +186,86 @@ $app->group('', function (){
 
         return $this->view->render($response, 'status.twig');
     });
-    $this->get('/charts', function ($request, $response){
-        return $this->view->render($response, 'admin_charts.twig');
+
+    $this->get('/admin', function($request, $response) {
+        return $this->view->render($response, 'admin.twig');
+    })->setName('admin');
+
+    $this->post('/admin', function($request, $response) {
+
+        global $container;
+
+        $email = $request->getParam('email');
+        $password = $request->getParam('password');
+
+        $db = $container->get('settings')['db'];
+        $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
+
+        $user = \App\models\Access::findByEmail($pdo, $email);
+
+        if (!$user) {
+            $errors = "Email account is not registered on the platform";
+            return $this->view->render($response, 'admin.twig', [
+                'errors' => $errors
+            ]);
+        }
+
+        if ($user['is_admin'] == false) {
+            $errors = "You don't have access to this page";
+            return $this->view->render($response, 'admin.twig', [
+                'errors' => $errors
+            ]);
+        }
+
+        $attempt = $this->auth->admin_attempt($user['email'], $password);
+
+        if (!$attempt) {
+            $errors = "Invalid email/password combination";
+            return $this->view->render($response, 'admin.twig', [
+                'errors' => $errors
+            ]);
+        }
+
+        return $response->withRedirect($container->router->pathFor('dashboard'));
     });
+
+})->add(new GuestMiddleware($container));
+
+$app->group('/admin', function (){
+
     $this->get('/dashboard', function ($request, $response){
         return $this->view->render($response, 'admin_dashboard.twig');
     })->setName('dashboard');
+
     $this->get('/requests', function ($request, $response){
-        return $this->view->render($response, 'admin_widgets.twig');
+        global $container;
+        $db = $container->get('settings')['db'];
+        $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
+        $requests = \App\models\LoanRequest::all($pdo);
+
+        return $this->view->render($response, 'admin_widgets.twig', [
+            'requests' => $requests
+        ]);
     })->setName('requests');
-})->add(new GuestMiddleware($container));
+
+    $this->get('/requests/{loan_id}/approve', function ($request, $response, $loan_id){
+
+        global $container;
+        $db = $container->get('settings')['db'];
+        $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
+        \App\models\LoanRequest::approve($pdo, $loan_id);
+
+        return $response->withRedirect($container->router->pathFor('requests'));
+    })->setName('approve');
+
+    $this->get('/requests/{loan_id}/paid', function ($request, $response, $loan_id){
+
+        global $container;
+        $db = $container->get('settings')['db'];
+        $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
+        \App\models\LoanRequest::paid($pdo, $loan_id);
+
+        return $response->withRedirect($container->router->pathFor('requests'));
+    })->setName('paid');
+
+})->add(new AdminMiddleware($container));
