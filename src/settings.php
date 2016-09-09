@@ -31,6 +31,7 @@ return [
             'email' => 'styccs@gmail.com',
             'name' => 'Admin',
         ],
-        'sendgrid_api_key' => 'on8YO-mqR-yWpNdFy5pJqQ'
+        'sendgrid_api_key' => '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'    
+//        'sendgrid_api_key' => 'on8YO-mqR-yWpNdFy5pJqQ'
     ]
 ];

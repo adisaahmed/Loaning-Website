@@ -27,14 +27,10 @@ class Mail
         $mail->Body = $body;
         $mail->AltBody = $body;
 
-        var_dump($mail->send());
-
-        exit();
-
-//        if(!$mail->send())
-//        {
-//            return "Mailer Error: " . $mail->ErrorInfo;
-//        }
+        if(!$mail->send())
+        {
+            return "Mailer Error: " . $mail->ErrorInfo;
+        }
 
         return true;
     }
@@ -83,56 +79,58 @@ class Mail
         
         $message = '<p><Hello'. $name.',</p>'.'<p>Welcome to Ecogeneral Loan Services, your loan  of value'.$value.' with a repayment date of'. $date. ' is being processed.</p>';
 
-        static::send_mail($settings['default_address']['email'], $settings['default_address']['name'], $email, $name, $subject, $message);
+//        static::send_mail($settings['default_address']['email'], $settings['default_address']['name'], $email, $name, $subject, $message);
+
+        static::send_sendgrid_mail($settings['default_address']['email'], $email, $subject, $message);
 
         $admin_subject = $name. 'has requested a loan';
 
         $admin_message = '<p><Hello Admin,</p>'.$name.',' .$email. '<p> just requested a loan  of value'.$value.' with a repayment date of'. $date.'.</p>';
 
-        static::send_mail($settings['admin_address']['email'], $settings['admin_address']['name'], $email, $name, $admin_subject, $admin_message);
+        static::send_sendgrid_mail($settings['default_address']['email'], $settings['admin_address']['email'], $admin_subject, $admin_message);
+
+//        static::send_mail($settings['admin_address']['email'], $settings['admin_address']['name'], $email, $name, $admin_subject, $admin_message);
 
         return true;
     }
 
-    static public function send_sendgrid_mail($from, $recipient) {
+    static public function send_sendgrid_mail($from, $recipient, $subject, $message) {
 
-        $request_body = json_decode('{
+        $data = '{
           "personalizations": [
             {
               "to": [
                 {
-                  "email":'.$recipient.' 
+                  "email": "%to%"
                 }
               ],
-              "subject": "Your Loan Request is being processed"
+              "subject": "%subject%"
             }
           ],
           "from": {
-            "email":'.$from.'
+            "email": "%from%"
           },
           "content": [
             {
               "type": "text/plain",
-              "value": "Welcome to Ecogeneral Loan Services, your loan  of value".$value." with a repayment date of". $date. " is being processed.!"
+              "value": "%message%"
             }
           ]
-        }'
-        );
+        }';
+
+        $_body = str_replace("%to%", $recipient, $data);
+        $__body = str_replace("%from%", $from, $_body);
+        $___body = str_replace("%subject%", $subject, $__body);
+        $body = str_replace("%subject%", $message, $___body);
+
+        $request_body = json_decode($body);
 
         $settings = require __DIR__ . '/../src/settings.php';
         $message = new \SendGrid($settings['settings']['sendgrid_api_key']);
 
-        var_dump($message);
-
-        exit();
-
         $response = $message->client->mail()->send()->post($request_body);
 
-        var_dump($response->statusCode());
-
-        exit();
-
-        if ($response->statusCode() == 200){
+        if ($response->statusCode() == 202){
             return true;
         }
 
@@ -140,7 +138,4 @@ class Mail
 
     }
 }
-
-//Mail::send_sendgrid_mail('styccs@gmail.com', 'oladipoqudus@gmail.com');
-Mail::send_mail('ademola@tm30.net', 'Ademola', 'ademola@tm30.net', 'Recipient', 'subject', 'body');
 
