@@ -125,8 +125,8 @@ class Mail
 
         $request_body = json_decode($body);
 
-        $settings = require __DIR__ . '/../src/settings.php';
-        $message = new \SendGrid($settings['settings']['sendgrid_api_key']);
+        $api_key = require __DIR__ . '../locals.php';
+        $message = new \SendGrid($api_key);
 
         $response = $message->client->mail()->send()->post($request_body);
 

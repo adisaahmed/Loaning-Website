@@ -18,9 +18,9 @@ return [
         // Database settings
         'db' => [
             'host' => 'localhost',
-            'user' => 'efflux_general',
+            'user' => 'effluxco_general',
             'pass' => '8erd+g%k*Cv%',
-            'dbname' => 'efflux_ecogeneral'
+            'dbname' => 'effluxco_ecogeneral'
         ],
         'default_address' => [
             'email' => 'admin@tm30.net',
@@ -31,7 +31,6 @@ return [
             'email' => 'styccs@gmail.com',
             'name' => 'Admin',
         ],
-        'sendgrid_api_key' => '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'    
 //        'sendgrid_api_key' => 'on8YO-mqR-yWpNdFy5pJqQ'
     ]
 ];
