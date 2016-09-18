@@ -11,7 +11,9 @@ require __DIR__. '/../models/Model.php';
 
 require __DIR__. '/dependencies.php';
 
-use App\Services\Mail;
+require __DIR__.'/../services/Mail.php';
+
+//use App\Services\Mail;
 
 //$app->get('/', function ($request, $response, $args) {
 //    return $this->renderer->render($response, 'home.phtml', $args);
@@ -40,7 +42,9 @@ $app->get('/fast', function($request, $response, $args) {
 })->setName('fast');
 
 $app->get('/cash', function($request, $response, $args) {
-    return $this->view->render($response, 'cash.twig');
+    return $this->view->render($response, 'cash.twig', [
+        'error' => null
+    ]);
 })->setName('cash');
 
 $app->get('/online', function($request, $response, $args) {
@@ -88,9 +92,9 @@ $app->post('/cash', function($request, $response, $args){
 
     if ($loan) {
         if (!$loan['paid']) {
-            $error = "You have an outstanding loan repayment to complete. Please visit client tab to log in and confirm its status";
-            $_SESSION['errors'] = $error;
-            return $this->renderer->render($response, 'get_cash.phtml');
+            return $this->view->render($response, 'cash.twig', [
+                'error' => "You have an outstanding loan repayment to complete. Please visit client tab to log in and confirm its status"
+            ]);
         }
     }
 
@@ -111,11 +115,13 @@ $app->post('/cash', function($request, $response, $args){
 
     $loan = \App\models\LoanRequest::create($pdo, $email, $borrow, $total, $interest, $serviceFee, $repayment_date);
 
-    $mail = Mail::send_verification_mails($user['email'], $user['first_name']. ''. $user['last_name'], $loan['total'], $loan['repayment_date']);
+    $mail = \App\Services\Mail::send_verification_mails($user['email'], $user['first_name']. ''. $user['last_name'], $loan['total'], $loan['repayment_date']);
 
     $this->auth->attempt($user['email'], $user['password']);
 
-    return $this->view->render($response, 'status.twig');
+    $_SESSION['loan_id'] = $loan['id'];
+
+    return $response->withRedirect($container->router->pathFor('status'));
 
 });
 
@@ -130,7 +136,19 @@ $app->group('/user', function (){
     })->setName('agreement');
 
     $this->get('/status', function($request, $response, $args) {
-        $this->view->render($response, 'status.twig');
+
+        global $container;
+
+        $user = $this->auth->user();
+
+        $db = $container->get('settings')['db'];
+        $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
+        $loan = \App\models\LoanRequest::getLatest($pdo, $user['email']);
+
+        $this->view->render($response, 'status.twig', [
+            'loan' => $loan,
+            'today' => date(mktime())
+        ]);
     })->setName('status');
 
     $this->get('/approved', function($request, $response, $args) {
@@ -184,7 +202,7 @@ $app->group('', function (){
             ]);
         }
 
-        return $this->view->render($response, 'status.twig');
+        return $response->withRedirect($container->router->pathFor('status'));
     });
 
     $this->get('/admin', function($request, $response) {
@@ -237,13 +255,24 @@ $app->group('/admin', function (){
         return $this->view->render($response, 'admin_dashboard.twig');
     })->setName('dashboard');
 
+    $this->get('/users', function ($request, $response){
+        global $container;
+        $db = $container->get('settings')['db'];
+        $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
+        $users = \App\models\Users::all($pdo);
+
+        return $this->view->render($response, 'users.twig', [
+            'users' => $users
+        ]);
+    })->setName('users');
+
     $this->get('/requests', function ($request, $response){
         global $container;
         $db = $container->get('settings')['db'];
         $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
         $requests = \App\models\LoanRequest::all($pdo);
 
-        return $this->view->render($response, 'admin_widgets.twig', [
+        return $this->view->render($response, 'requests.twig', [
             'requests' => $requests
         ]);
     })->setName('requests');

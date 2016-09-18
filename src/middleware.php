@@ -158,7 +158,7 @@ class Auth
 
         $db = $this->container['db'];
 
-        $user = \App\models\Admin::findByEmail($db, $email);
+        $user = \App\models\Access::findByEmail($db, $email);
 
         if (!$user || $user['is_admin'] == false) {
             return false;
@@ -202,6 +202,8 @@ class Auth
 
     public function logout() {
         unset($_SESSION['user']);
+        unset($_SESSION['admin']);
+        unset($_SESSION['loan_id']);
     }
 
 }

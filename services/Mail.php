@@ -8,8 +8,8 @@
  */
 namespace App\Services;
 
-require '../vendor/autoload.php';
 use PHPMailer;
+
 class Mail
 {
     static public function send_mail($origin, $origin_name, $recipient, $recipient_name, $subject, $body) {
@@ -73,7 +73,7 @@ class Mail
 
     static public function send_verification_mails($email, $name, $value, $date) {
 
-        $settings = require __DIR__ . '../src/settings.php';
+        $settings = require __DIR__ . '/../src/settings.php';
         
         $subject = 'Your Loan Request is being processed';
         
@@ -81,13 +81,13 @@ class Mail
 
 //        static::send_mail($settings['default_address']['email'], $settings['default_address']['name'], $email, $name, $subject, $message);
 
-        static::send_sendgrid_mail($settings['default_address']['email'], $email, $subject, $message);
+        static::send_sendgrid_mail($settings['settings']['default_address']['email'], $email, $subject, $message);
 
         $admin_subject = $name. 'has requested a loan';
 
         $admin_message = '<p><Hello Admin,</p>'.$name.',' .$email. '<p> just requested a loan  of value'.$value.' with a repayment date of'. $date.'.</p>';
 
-        static::send_sendgrid_mail($settings['default_address']['email'], $settings['admin_address']['email'], $admin_subject, $admin_message);
+        static::send_sendgrid_mail($settings['settings']['default_address']['email'], $settings['settings']['admin_address']['email'], $admin_subject, $admin_message);
 
 //        static::send_mail($settings['admin_address']['email'], $settings['admin_address']['name'], $email, $name, $admin_subject, $admin_message);
 
