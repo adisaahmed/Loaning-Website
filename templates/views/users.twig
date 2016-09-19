@@ -82,15 +82,16 @@
                             {% for user in users %}
                                 <tr>
                                     <td>{{ user.title }}</td>
-                                    <td>&#8358;{{ user.first_name }}</td>
-                                    <td>&#8358;{{ user.last_name }}</td>
-                                    <td>&#8358;{{ user.email }}</td>
-                                    <td>&#8358;{{ user.bvn }}</td>
-                                    <td>&#8358;{{ user.marital_status }}</td>
-                                    <td>&#8358;{{ user.dependants }}</td>
-                                    <td>&#8358;{{ user.street }}</td>
-                                    <td>&#8358;{{ user.city }}</td>
-                                    <td>&#8358;{{ user.state }}</td>
+                                    <td>{{ user.first_name }}</td>
+                                    <td>{{ user.last_name }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.bvn }}</td>
+                                    <td>{{ user.gender }}</td>
+                                    <td>{{ user.marital_status }}</td>
+                                    <td>{{ user.dependants }}</td>
+                                    <td>{{ user.street }}</td>
+                                    <td>{{ user.city }}</td>
+                                    <td>{{ user.state }}</td>
                                 </tr>
                             {% endfor %}
                         </table>

@@ -166,8 +166,102 @@ $app->group('/user', function (){
     })->setName('logout');
 
     $this->get('/more', function ($request, $response){
-        return $this->view->render($response, 'more.twig');
+        $user = $this->auth->user();
+        return $this->view->render($response, 'more.twig', [
+            'user' => $user
+        ]);
     })->setName('more');
+
+    $this->post('/otp', function ($request, $response){
+
+        global $container;
+
+        $user = $this->auth->user();
+
+        $email = $request->getParam('email');
+        
+        if ($user['email'] == $email) {
+            return $this->view->render($response, 'more.twig', [
+                'user' => $user,
+                'error' => "No changes detected"
+            ]);
+        }
+
+        $result = \App\Services\Mail::send_otp($container, $email);
+
+        $message = null;
+
+        if ($result) {
+            $message = "Message sent successfully";
+        }
+
+        return $this->view->render($response, 'more.twig', [
+            'user' => $user,
+            'message' => $message
+        ]);
+    });
+
+    $this->post('/change', function ($request, $response){
+
+        global $container;
+
+        $user = $this->auth->user();
+
+        $input = $request->getParam('token');
+
+        $db = $container->get('settings')['db'];
+        $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
+        
+        $token = \App\models\Token::find($pdo, $input);
+
+        if (!$token) {
+            return $this->view->render($response, 'more.twig', [
+                'user' => $user,
+                'token_error' => "Invalid/Expired Token"
+            ]);
+        }
+
+        $token_message = "Email successfully changed";
+
+        return $this->view->render($response, 'more.twig', [
+            'user' => $user,
+            'token_message' => $token_message
+        ]);
+    });
+
+    $this->post('/user/compute', function ($request, $response) {
+
+        global $container;
+
+        $date = strtotime($request->getParam('repayment_date'));
+        $newformat = date('Y-m-d',$date);
+        $_SESSION['data'] = array("interest"=>$request->getParam('interest'), "serviceFee"=>$request->getParam('serviceFee'), "total"=>$request->getParam('total'), "borrow"=>$request->getParam('borrow'), "repayment_date"=>$newformat);
+
+        $total = $request->getParam('total');
+        $interest = $request->getParam('interest');
+        $borrow = $request->getParam('borrow');
+        $serviceFee = $request->getParam('serviceFee');
+        $repayment_date = $request->getParam('repayment_date');
+
+        $db = $container->get('settings')['db'];
+        $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
+
+        $user = $this->auth->user();
+        $loan = \App\models\LoanRequest::findByEmail($pdo, $user['email']);
+
+        if ($loan) {
+            if (!$loan['paid']) {
+                return $this->view->render($response, 'more.twig', [
+                    'error' => "You have an outstanding loan repayment to complete. Please visit client tab to log in and confirm its status"
+                ]);
+            }
+        }
+
+        \App\models\LoanRequest::create($pdo, $user['email'], $borrow, $total, $interest, $serviceFee, $repayment_date);
+
+        return $response->withRedirect($container->router->pathFor('status'));
+
+    });
 
 })->add(new AuthMiddleware($container));
 
@@ -255,7 +349,17 @@ $app->group('', function (){
 $app->group('/admin', function (){
 
     $this->get('/dashboard', function ($request, $response){
-        return $this->view->render($response, 'admin_dashboard.twig');
+
+        global $container;
+        $db = $container->get('settings')['db'];
+        $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
+        $users = \App\models\Users::all($pdo);
+        $requests = \App\models\LoanRequest::all($pdo);
+        
+        return $this->view->render($response, 'admin_dashboard.twig', [
+            'requests' => count($requests),
+            'users' => count($users)
+        ]);
     })->setName('dashboard');
 
     $this->get('/users', function ($request, $response){
@@ -280,22 +384,24 @@ $app->group('/admin', function (){
         ]);
     })->setName('requests');
 
-    $this->get('/requests/{loan_id}/approve', function ($request, $response, $loan_id){
+    $this->get('/requests/{loan_id}/approve', function ($request, $response, $args){
 
         global $container;
         $db = $container->get('settings')['db'];
         $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
-        \App\models\LoanRequest::approve($pdo, $loan_id);
+
+        \App\models\LoanRequest::approve($pdo, (int)$args['loan_id']);
 
         return $response->withRedirect($container->router->pathFor('requests'));
     })->setName('approve');
 
-    $this->get('/requests/{loan_id}/paid', function ($request, $response, $loan_id){
+    $this->get('/requests/{loan_id}/paid', function ($request, $response, $args){
 
         global $container;
         $db = $container->get('settings')['db'];
         $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
-        \App\models\LoanRequest::paid($pdo, $loan_id);
+
+        \App\models\LoanRequest::paid($pdo, (int)$args['loan_id']);
 
         return $response->withRedirect($container->router->pathFor('requests'));
     })->setName('paid');

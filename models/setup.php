@@ -59,6 +59,23 @@ $new_psql = "CREATE TABLE IF NOT EXISTS $preq (
 
 array_push($list, $new_psql);
 
+$pre = "token";
+$new_pre = "CREATE TABLE IF NOT EXISTS $preq (
+    email VARCHAR(255) NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    is_expired BOOL DEFAULT FALSE
+    );";
+
+array_push($list, $new_pre);
+
 foreach ($list as $data) {
     $pdo->exec($data);
 }
+
+$access = 'INSERT INTO access
+  (email , password, is_admin)
+VALUES
+  ("admin@ecogeneral.com", "$2y$10$EVuA0LzkvGesqvkD9ONwsOZQtIgqrG08pSSVlN8gQApWVV7C8LuGa", TRUE );';
+
+$obj = $pdo->prepare($access);
+$obj->execute();

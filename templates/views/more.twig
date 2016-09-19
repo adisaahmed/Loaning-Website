@@ -87,8 +87,8 @@
                                     </a>
                                 </td>
                                 <td class="slide" style="width:495px">
-                                    <span>NGN1,000.00</span><span style="float:right;">NGN5,000.00</span>
-                                    <div id="slide"></div>
+                                    <span>[[start | number]] days</span><span style="float:right;" ng-cloak>[[end | number]] days</span>
+                                    <input type="range" min="[[start]]" max="[[end]]" value="[[date_value]]" ng-model="date_value" ng-change="valueChanges()">
                                 </td>
                                 <td class="plus" style="width:30px; float:right; padding-left:13px;">
                                     <a href="" style="font-size:20px;">
@@ -150,30 +150,44 @@
         </h2>
         <div class="update_form">
             <h2 style="color: #272968; font-weight: 600;">Update your details below</h2>
-            <table>
-                <tr>
-                    <th>Email</th>
-                    <th>Mobile</th>
-                </tr>
-                <tr>
-                    <td><input type="email" name="lastname" placeholder="info@ecogeneral.com"></td>
-                    <td><input type="text" name="lastname" placeholder="08097678543"></td>
-                </tr>
-            </table>
+            <form method="post" action="/user/otp">
+                <table>
+                    <tr>
+                        <span style="color: darkred">{{ error }}</span>
+                        <span style="color: darkgreen">{{ message }}</span>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="email" name="email" value="{{ user.email }}">
+                            <input type="submit" value="Send" class="btn-xs btn-primary">
+                        </td>
+                        {#<td><input type="text" name="lastname" placeholder="08097678543"></td>#}
+                    </tr>
+                </table>
+            </form>
             <h2 style="color: #272968; font-weight: 600;">Your one time pin</h2>
-            <table>
-                <tr>
-                    <th>Pin sent to your mobile number</th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <td><textarea></textarea></td>
-                    <td>
-                        <a href="">Did not get your OTP?</a>
-                    </td>
-                </tr>
-            </table>
-            <button>
+            <form method="post" action="/user/change">
+                <table>
+                    <tr>
+                        <span style="color: darkred">{{ token_error }}</span>
+                        <span style="color: darkgreen">{{ token_message }}</span>
+                    </tr>
+                    <tr>
+                        <th>Pin sent to your email address</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea></textarea><br>
+                            <input type="submit" value="Send" class="btn-xs btn-primary">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <button ng-click="">
                 Get More Cash
             </button>
         </div>

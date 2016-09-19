@@ -75,6 +75,18 @@ _app.controller('CalculateController', function ($scope, $window) {
         });
         location.href = '/cash';
     }
+
+    $scope.submit_more = function () {
+        $.post('/user/compute', {
+            serviceFee: $scope.serviceFee,
+            interest: $scope.interest,
+            total: $scope.total,
+            borrow: $scope.borrow,
+            repayment_date: $scope.repayment_date
+        }, function (data, status) {
+
+        });
+    }
 });
 
 _app.controller('ProfileController', function ($scope) {

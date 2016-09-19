@@ -9,6 +9,8 @@
 namespace App\Services;
 
 use PHPMailer;
+use App\models\Token;
+use PDO;
 
 class Mail
 {
@@ -121,7 +123,7 @@ class Mail
         $_body = str_replace("%to%", $recipient, $data);
         $__body = str_replace("%from%", $from, $_body);
         $___body = str_replace("%subject%", $subject, $__body);
-        $body = str_replace("%subject%", $message, $___body);
+        $body = str_replace("%message%", $message, $___body);
 
         $request_body = json_decode($body);
 
@@ -135,7 +137,56 @@ class Mail
         }
 
         return false;
+    }
+    
+    static public function send_otp($container, $email) {
+        
+        $data = '{
+          "personalizations": [
+            {
+              "to": [
+                {
+                  "email": "%to%"
+                }
+              ],
+              "subject": "%subject%"
+            }
+          ],
+          "from": {
+            "email": "%from%"
+          },
+          "content": [
+            {
+              "type": "text/plain",
+              "value": "%message%"
+            }
+          ]
+        }';
 
+        $_body = str_replace("%to%", $email, $data);
+        $__body = str_replace("%from%", "admin@ecogeneral.com", $_body);
+        $___body = str_replace("%subject%", "One Time Password validating an email address change", $__body);
+        $token = bin2hex(openssl_random_pseudo_bytes(2));
+        $msg = "You are requesting a change of your email address on your account to ". $email. ". Use this token - ". (string)$token. " to authenticate this change.";
+        $body = str_replace("%message%", $msg, $___body);
+
+        $request_body = json_decode($body);
+
+        $locals = require __DIR__ . '/../locals.php';
+        $message = new \SendGrid($locals['sendgrid_api_key']);
+
+        $db = $container->get('settings')['db'];
+        $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
+
+        Token::create($pdo, $email, $token);
+
+        $response = $message->client->mail()->send()->post($request_body);
+
+        if ($response->statusCode() == 202){
+            return true;
+        }
+        
+        return false;
     }
 }
 

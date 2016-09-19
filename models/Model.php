@@ -90,8 +90,9 @@ class LoanRequest extends Model
         return $result;
     }
 
-    static public function approve($db, $id) {
-        $query = $db->prepare('UPDATE loan_request SET approved=TRUE WHERE id="'.$id.'"');
+    static public function approve($db, $loan_id) {
+
+        $query = $db->prepare('UPDATE loan_request SET approved=TRUE WHERE id="'.$loan_id.'"');
         $query->execute();
         $result = $query->fetch();
 
@@ -178,4 +179,31 @@ class Access extends Model
 
         return $result;
     }
+}
+
+
+class Token extends Model
+{
+
+    static public function create($db, $email, $token)
+    {
+        $query = $db->prepare('INSERT INTO token (email, token)'
+            . "VALUES (?, ?)");
+        $query->execute(array($email, $token));
+
+        $obj = $query->fetch();
+
+        return $obj;
+    }
+
+    static public function find($db, $token)
+    {
+
+        $query = $db->prepare('SELECT * FROM token WHERE token="'.$token.'"');
+        $query->execute();
+        $result = $query->fetch();
+
+        return $result;
+    }
+
 }

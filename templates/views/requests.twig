@@ -82,17 +82,17 @@
                                     <td>&#8358;{{ request.interest|number_format(2, '.', ',') }}</td>
                                     <td>&#8358;{{ request.servicefee|number_format(2, '.', ',') }}</td>
                                     <td>&#8358;{{ request.total|number_format(2, '.', ',') }}</td>
-                                    <td>info@gmail.com</td>
+                                    <td>{{ request.email }}</td>
                                     <td>
                                         {% if request.paid %}
                                             <button class="btn-sm btn-success" style="width: 120px;">PAID</button>
                                         {% else %}
-                                            <a href="/requests/1/paid" class="btn-sm btn-primary" style="width: 120px;">MARK AS PAID</a>
+                                            <a href="/admin/requests/{{ request.id }}/paid" class="btn-sm btn" style="width: 120px;">MARK AS PAID</a>
                                         {% endif %}
-                                        {% if request.paid %}
+                                        {% if request.approved %}
                                             <button class="btn-sm btn-success" style="width: 120px;">APPROVED</button>
                                         {% else %}
-                                            <a href="/requests/1/approve" class="btn-sm btn-primary" style="width: 120px">APPROVE</a>
+                                            <a href="/admin/requests/{{ request.id }}/approve" class="btn-sm btn" style="width: 120px">APPROVE</a>
                                         {% endif %}
                                     </td>
                                 </tr>
