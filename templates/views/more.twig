@@ -10,8 +10,8 @@
     <script src="../static/js/modernizr.js"></script>
     <script src="../static/js/angular.min.js"></script>
 </head>
-<body>
-<div class="main_body">
+<body ng-app="mainApp">
+<div class="main_body" ng-controller="CalculateController" ng-init="init()">
     <div class="first_section">
         <div class="header">
             <div class="header_content">
@@ -58,8 +58,8 @@
                                     </a>
                                 </td>
                                 <td class="slide" style="width:495px">
-                                    <span>NGN1,000.00</span><span style="float:right;">NGN5,000.00</span>
-                                    <div id="slider"></div>
+                                    <span>NGN[[min | number]]</span><span ng-cloak style="float:right;">NGN[[max | number]] </span>
+                                    <input type="range" min="[[min]]" max="[[max]]" value="[[borrow]]" ng-model="borrow" ng-change="valueChanges()">
                                 </td>
                                 <td class="plus" style="width:30px; float:right; padding-left:13px;">
                                     <a href="" style="font-size:20px;">
@@ -106,7 +106,7 @@
             <div class="right_content clearfix">
                 <div class="slide_values" style="margin-top:0px;">
                     <div class="main_value">
-                        NGN6,000:00
+                        NGN[[borrow | number]]
                     </div>
                     <div class="value_name">
                         Total Borrowing
@@ -119,7 +119,7 @@
             <div class="right_content clearfix">
                 <div class="slide_values" style="margin-top:0px; background:#15A7DF;">
                     <div class="main_value">
-                        NGN6,000:00
+                        NGN[[interest | number]]
                     </div>
                     <div class="value_name">
                         Interest And Fees
@@ -132,7 +132,7 @@
             <div class="right_content clearfix">
                 <div class="slide_values" style="margin-top:0px;">
                     <div class="main_value">
-                        NGN5,000:00
+                        NGN[[total | number]]
                     </div>
                     <div class="value_name">
                         Total Repayable
@@ -144,12 +144,7 @@
             </div>
         </div>
         <h2>
-            Your next salary date is on the <span style="color: #272968; font-weight: 600;">18th.</span> therefore your repayment date for the loan is on <span style="color: #272968; font-weight: 600;">Friday 23th of September 2020. the minimum time is 5 days and the maximum is 40days</span>
-        </h2>
-        <h2>
             <span style="color: #272968; font-weight: 600;">Get More Cash</span> <br>
-            <b>Current loan amounts</b> <br>
-            You have applied previously for a <span style="color: #272968; font-weight: 600;">2,000:00</span> loan and you now qualify for up to <span style="color: #272968; font-weight: 600;">3,000:00</span> so go ahead and apply below <br>
             <b>Current account details</b> <br>
             Should either your email address or your mobile number have changed recently. Please update it below. Account information is important in order to complete your application.
         </h2>
@@ -229,12 +224,7 @@
 <script src="../js/jquery.js"></script>
 <script src="../js/jquery-ui/jquery-ui.js"></script>
 <script src="../css/bootstrap/js/bootstrap.min.js"></script>
-</body>
-
-
-
-
-
+<script type="text/javascript" src ="../static/js/app.js"></script>
 <script>
     $( function() {
         $( "#slider" ).slider();
@@ -244,4 +234,5 @@
         $( "#slide" ).slider();
     });
 </script>
+</body>
 </html>

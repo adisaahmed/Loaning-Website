@@ -145,9 +145,12 @@ $app->group('/user', function (){
         $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
         $loan = \App\models\LoanRequest::getLatest($pdo, $user['email']);
 
+        $diff = (int)(strtotime($loan['repayment_date']) - time());
+        $diff = gmdate("d", $diff);
+
         $this->view->render($response, 'status.twig', [
             'loan' => $loan,
-            'today' => date(mktime())
+            'countdown' => $diff
         ]);
     })->setName('status');
 

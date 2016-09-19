@@ -125,7 +125,7 @@ class Mail
 
         $request_body = json_decode($body);
 
-        $api_key = require __DIR__ . '../locals.php';
+        $api_key = require __DIR__ . '/../locals.php';
         $message = new \SendGrid($api_key);
 
         $response = $message->client->mail()->send()->post($request_body);

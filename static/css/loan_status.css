@@ -227,7 +227,7 @@ body .main_body .second_section p {
 body .main_body .second_section .content_wrap {
   width: 100%;
   background-color: #ddd;
-  height: 300px;
+  height: 180px;
   padding: 30px;
 }
 body .main_body .second_section .content_wrap .loan_status {

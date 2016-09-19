@@ -70,7 +70,7 @@
             </div>
             <div class="record_button first_color">
                 <div class="left">
-                    <p class="bold">{{ loan.repayment_date - today|date("Y/m/d") }}</p>
+                    <p class="bold">{{ countdown }} days</p>
                     <p class="small">Countdown</p>
                 </div>
                 <div class="right">
@@ -86,22 +86,33 @@
                 The process bar below indicate your current loan status. If you would like to reaply without completing the entire process. Please click the GET MORE CASH button. Please note that our lending rules only allow for one active loan at a time and if you have been declined, You may only apply 60 days later.
             </p>
             <div class="content_wrap">
-                <div class="loan_status clearfix">
-                    <p class="left_p_loan">Loan Status</p>
-                    <p class="right_p_loan">Approved</p>
-                    <div class="empty_div_wrap">
-                        <div>100%</div>
-                        <div class="empty_div"></div>
+                {% if not loan.paid %}
+                    {% if loan.approved  %}
+                    <div class="loan_status clearfix">
+                        <p class="left_p_loan">Loan Status</p>
+                        <p class="right_p_loan">Approved</p>
+                        <div class="empty_div_wrap">
+                            <div class="empty_div"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="second_loan_status clearfix">
-                    <p class="left_p_loan">Application Status</p>
-                    <p class="right_p_loan">Application cancelled by CRM</p>
-                    <div class="empty_div_wrap">
-                        <div>100%</div>
-                        <div class="empty_div"></div>
+                    {% else %}
+                    <div class="second_loan_status clearfix">
+                        <p class="left_p_loan">Loan Status</p>
+                        <p class="right_p_loan">Not Approved</p>
+                        <div class="empty_div_wrap">
+                            <div class="empty_div"></div>
+                        </div>
                     </div>
-                </div>
+                    {% endif %}
+                {% else %}
+                    <div class="loan_status clearfix">
+                        <p class="left_p_loan">Loan Status</p>
+                        <p class="right_p_loan">Paid</p>
+                        <div class="empty_div_wrap">
+                            <div class="empty_div"></div>
+                        </div>
+                    </div>
+                {% endif %}
                 <button>
                     <a href="/user/more">Get more cash</a>
                 </button>
