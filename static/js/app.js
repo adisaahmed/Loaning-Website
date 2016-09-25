@@ -13,7 +13,7 @@ _app.controller('LoginController', function () {
     
 });
 
-_app.controller('CalculateController', function ($scope, $window) {
+_app.controller('CalculateController', function ($scope, $window, $location) {
 
     $scope.reCalculate = function () {
 
@@ -26,6 +26,8 @@ _app.controller('CalculateController', function ($scope, $window) {
     };
 
     $scope.init = function () {
+        
+        $scope.error = {"data": null};
         
         $scope.min = 1000.0;
         $scope.max = 5000.0;
@@ -73,8 +75,8 @@ _app.controller('CalculateController', function ($scope, $window) {
             localStorage.setItem('date_value', $scope.date_value);
             localStorage.setItem('repayment_date', $scope.repayment_date);
         });
-        location.href = '/cash';
-    }
+        location.href = $location.$$absUrl + '/cash';
+    };
 
     $scope.submit_more = function () {
         $.post('/user/compute', {
@@ -84,7 +86,9 @@ _app.controller('CalculateController', function ($scope, $window) {
             borrow: $scope.borrow,
             repayment_date: $scope.repayment_date
         }, function (data, status) {
-
+           if (data) {
+               $scope.error.data = data;
+           }
         });
     }
 });
@@ -107,3 +111,61 @@ _app.controller('ProfileController', function ($scope) {
         }
     }
 });
+
+_app.controller('MoreController', function ($scope, $window, $location) {
+
+    $scope.reCalculate = function () {
+
+        $scope.serviceFee = parseFloat(1500) + parseFloat(0.05 * $scope.borrow);
+        $scope.interestRate = parseFloat(0.0034 * $scope.date_value * $scope.borrow);
+        $scope.interest = parseFloat($scope.interestRate) + parseFloat($scope.serviceFee);
+        $scope.total = parseFloat($scope.borrow) + parseFloat($scope.interest);
+        $scope._date = new Date(new Date().getTime()+($scope.date_value*24*60*60*1000));
+        $scope.repayment_date = $scope._date.toDateString();
+    };
+
+    $scope.init = function () {
+
+        $scope.min = 1000.0;
+        $scope.max = 5000.0;
+
+        $scope.start = 10;
+        $scope.end = 40;
+
+        $scope.date_value = localStorage.getItem('date_value');
+
+        if (! $scope.date_value) {
+            $scope.date_value = $scope.start;
+        }
+
+        $scope._date = new Date(new Date().getTime()+($scope.date_value*24*60*60*1000));
+        $scope.repayment_date = $scope._date.toDateString();
+
+        $scope.borrow = localStorage.getItem('borrow');
+
+        if (! $scope.borrow) {
+            $scope.borrow = 1000.0;
+        }
+
+        $scope.vat = 5;
+        $scope.processingFee = 0.5;
+
+        $scope.reCalculate();
+    };
+
+    $scope.valueChanges = function () {
+        $scope.reCalculate();
+    };
+
+    $scope.submit = function () {
+        $.post('/user/compute', {
+            serviceFee: $scope.serviceFee,
+            interest: $scope.interest,
+            total: $scope.total,
+            borrow: $scope.borrow,
+            repayment_date: $scope.repayment_date
+        }, function (data, status) {
+        
+        });
+    }
+})

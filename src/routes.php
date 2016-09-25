@@ -229,7 +229,7 @@ $app->group('/user', function (){
         ]);
     });
 
-    $this->post('/user/compute', function ($request, $response) {
+    $this->post('/compute', function ($request, $response) {
 
         global $container;
 
@@ -251,9 +251,7 @@ $app->group('/user', function (){
 
         if ($loan) {
             if (!$loan['paid']) {
-                return $this->view->render($response, 'more.twig', [
-                    'error' => "You have an outstanding loan repayment to complete. Please visit client tab to log in and confirm its status"
-                ]);
+                return "You have an outstanding loan repayment to complete. Please visit client tab to log in and confirm its status";
             }
         }
 

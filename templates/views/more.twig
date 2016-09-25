@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="../static/js/jquery-ui/jquery-ui.css">
     <link rel="stylesheet" href="../static/css/bootstrap/css/bootstrap-theme.css">
     <link rel="stylesheet" href="../static/css/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/index.css">
     <link rel="stylesheet" type="text/css" href="../static/css/more_loan.css">
     <link rel="stylesheet" type="text/css" href="../static/css/font-awesome/css/font-awesome.css">
     <script src="../static/js/modernizr.js"></script>
@@ -43,6 +44,7 @@
     <div class="second_section clearfix">
         <div class="first_section">
             <h2>Please note that outdated information will affect your application</h2>
+            <span>{{ error.data }}</span>
             <div class="left_content clearfix">
                 <div class="tool">
                     <div class="labe">
@@ -187,7 +189,7 @@
                     </tr>
                 </table>
             </form>
-            <button ng-click="">
+            <button ng-click="submit_more()">
                 Get More Cash
             </button>
         </div>
