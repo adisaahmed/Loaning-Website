@@ -111,14 +111,15 @@ $app->post('/cash', function($request, $response, $args){
     $city = $request->getParam('city');
     $state = $request->getParam('state');
 
-    $user = \App\models\Users::create($pdo, $email, $password, $first_name, $last_name, $bvn, $title, $gender, $date_of_birth, $phone, $marital_status, $dependants, $street, $city, $state);
+    $user = \App\models\Users::findByEmail($pdo, $email);
+    
+    if (!$user) {
+        $user = \App\models\Users::create($pdo, $email, $password, $first_name, $last_name, $bvn, $title, $gender, $date_of_birth, $phone, $marital_status, $dependants, $street, $city, $state);
+    }
 
     $loan = \App\models\LoanRequest::create($pdo, $email, $borrow, $total, $interest, $serviceFee, $repayment_date);
-
-    try {
-        \App\Services\Mail::send_verification_mails($user['email'], $user['first_name'] . '' . $user['last_name'], $loan['total'], $loan['repayment_date']);
-    }
-    catch (Exception $e){}
+   
+    \App\Services\Mail::send_verification_mails($user['email'], $user['first_name'] . '' . $user['last_name'], $loan['total'], $loan['repayment_date']);
 
     $this->auth->attempt($user['email'], $user['password']);
 

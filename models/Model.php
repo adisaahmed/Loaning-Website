@@ -143,6 +143,16 @@ class Users extends Model
 
         return $result;
     }
+
+    static public function findByEmail($db, $email)
+    {
+
+        $query = $db->prepare('SELECT * FROM users WHERE email="'.$email.'"');
+        $query->execute();
+        $result = $query->fetch();
+
+        return $result;
+    }
 }
 
 class Access extends Model

@@ -127,7 +127,8 @@ class Mail
 
         $request_body = json_decode($body);
 
-        $api_key = require __DIR__ . '/../locals.php';
+        $locals = require __DIR__ . '/../locals.php';
+        $api_key = (string)$locals['sendgrid_api_key'];
         $message = new \SendGrid($api_key);
 
         $response = $message->client->mail()->send()->post($request_body);
@@ -173,7 +174,8 @@ class Mail
         $request_body = json_decode($body);
 
         $locals = require __DIR__ . '/../locals.php';
-        $message = new \SendGrid($locals['sendgrid_api_key']);
+
+        $message = new \SendGrid((string)$locals['sendgrid_api_key']);
 
         $db = $container->get('settings')['db'];
         $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
