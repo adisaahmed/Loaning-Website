@@ -115,7 +115,10 @@ $app->post('/cash', function($request, $response, $args){
 
     $loan = \App\models\LoanRequest::create($pdo, $email, $borrow, $total, $interest, $serviceFee, $repayment_date);
 
-    $mail = \App\Services\Mail::send_verification_mails($user['email'], $user['first_name']. ''. $user['last_name'], $loan['total'], $loan['repayment_date']);
+    try {
+        \App\Services\Mail::send_verification_mails($user['email'], $user['first_name'] . '' . $user['last_name'], $loan['total'], $loan['repayment_date']);
+    }
+    catch (Exception $e){}
 
     $this->auth->attempt($user['email'], $user['password']);
 
