@@ -49,6 +49,7 @@
         </div>
     </div>
     <div class="second_section clearfix">
+        {% if loan %}
         <div class="record_wrap">
             <div class="record_button first_color">
                 <div class="left">
@@ -78,6 +79,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
         <div class="main_content clearfix">
             <h2>
                 Loan Status
@@ -86,28 +88,38 @@
                 The process bar below indicate your current loan status. If you would like to reaply without completing the entire process. Please click the GET MORE CASH button. Please note that our lending rules only allow for one active loan at a time and if you have been declined, You may only apply 60 days later.
             </p>
             <div class="content_wrap">
-                {% if not loan.paid %}
-                    {% if loan.approved  %}
-                    <div class="loan_status clearfix">
-                        <p class="left_p_loan">Loan Status</p>
-                        <p class="right_p_loan">Approved</p>
-                        <div class="empty_div_wrap">
-                            <div class="empty_div"></div>
+                {% if loan %}
+                    {% if not loan.paid %}
+                        {% if loan.approved  %}
+                        <div class="loan_status clearfix">
+                            <p class="left_p_loan">Loan Status</p>
+                            <p class="right_p_loan">Approved</p>
+                            <div class="empty_div_wrap">
+                                <div class="empty_div"></div>
+                            </div>
                         </div>
-                    </div>
+                        {% else %}
+                        <div class="second_loan_status clearfix">
+                            <p class="left_p_loan">Loan Status</p>
+                            <p class="right_p_loan">Not Approved</p>
+                            <div class="empty_div_wrap">
+                                <div class="empty_div"></div>
+                            </div>
+                        </div>
+                        {% endif %}
                     {% else %}
-                    <div class="second_loan_status clearfix">
-                        <p class="left_p_loan">Loan Status</p>
-                        <p class="right_p_loan">Not Approved</p>
-                        <div class="empty_div_wrap">
-                            <div class="empty_div"></div>
+                        <div class="loan_status clearfix">
+                            <p class="left_p_loan">Loan Status</p>
+                            <p class="right_p_loan">Paid</p>
+                            <div class="empty_div_wrap">
+                                <div class="empty_div"></div>
+                            </div>
                         </div>
-                    </div>
                     {% endif %}
                 {% else %}
-                    <div class="loan_status clearfix">
+                    <div class="second_loan_status clearfix">
                         <p class="left_p_loan">Loan Status</p>
-                        <p class="right_p_loan">Paid</p>
+                        <p class="right_p_loan">No pending loan</p>
                         <div class="empty_div_wrap">
                             <div class="empty_div"></div>
                         </div>

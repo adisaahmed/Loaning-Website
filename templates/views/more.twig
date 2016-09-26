@@ -44,7 +44,7 @@
     <div class="second_section clearfix">
         <div class="first_section">
             <h2>Please note that outdated information will affect your application</h2>
-            <span>{{ error.data }}</span>
+            <span style="color: blue" ng-if="error!=null">[[error]]</span><br>
             <div class="left_content clearfix">
                 <div class="tool">
                     <div class="labe">

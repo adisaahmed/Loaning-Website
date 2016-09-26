@@ -26,9 +26,10 @@ _app.controller('CalculateController', function ($scope, $window, $location) {
     };
 
     $scope.init = function () {
-        
-        $scope.error = {"data": null};
-        
+
+        $scope.error = localStorage.getItem('error');
+        localStorage.setItem('error', '');
+
         $scope.min = 1000.0;
         $scope.max = 5000.0;
 
@@ -61,7 +62,7 @@ _app.controller('CalculateController', function ($scope, $window, $location) {
     };
 
     $scope.submit = function () {
-        $.post('/compute', {
+        $.post($location.$$absUrl + '/compute', {
             serviceFee: $scope.serviceFee,
             interest: $scope.interest,
             total: $scope.total,
@@ -79,7 +80,7 @@ _app.controller('CalculateController', function ($scope, $window, $location) {
     };
 
     $scope.submit_more = function () {
-        $.post('/user/compute', {
+        $.post($location.$$absUrl + '/compute', {
             serviceFee: $scope.serviceFee,
             interest: $scope.interest,
             total: $scope.total,
@@ -87,9 +88,11 @@ _app.controller('CalculateController', function ($scope, $window, $location) {
             repayment_date: $scope.repayment_date
         }, function (data, status) {
            if (data) {
-               $scope.error.data = data;
+               localStorage.setItem('error', data);
            }
         });
+
+        location.href = $location.$$absUrl;
     }
 });
 
@@ -165,7 +168,7 @@ _app.controller('MoreController', function ($scope, $window, $location) {
             borrow: $scope.borrow,
             repayment_date: $scope.repayment_date
         }, function (data, status) {
-        
+
         });
     }
-})
+});

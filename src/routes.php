@@ -144,9 +144,12 @@ $app->group('/user', function (){
         $db = $container->get('settings')['db'];
         $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
         $loan = \App\models\LoanRequest::getLatest($pdo, $user['email']);
-
-        $diff = (int)(strtotime($loan['repayment_date']) - time());
-        $diff = gmdate("d", $diff);
+        $diff = null;
+        
+        if ($loan) {
+            $diff = (int)(strtotime($loan['repayment_date']) - time());
+            $diff = gmdate("d", $diff);   
+        }
 
         $this->view->render($response, 'status.twig', [
             'loan' => $loan,
@@ -171,6 +174,40 @@ $app->group('/user', function (){
             'user' => $user
         ]);
     })->setName('more');
+
+    $this->post('/more/compute', function ($request, $response) {
+
+        global $container;
+
+        $date = strtotime($request->getParam('repayment_date'));
+        $newformat = date('Y-m-d',$date);
+        $_SESSION['data'] = array("interest"=>$request->getParam('interest'), "serviceFee"=>$request->getParam('serviceFee'), "total"=>$request->getParam('total'), "borrow"=>$request->getParam('borrow'), "repayment_date"=>$newformat);
+
+        $total = $request->getParam('total');
+        $interest = $request->getParam('interest');
+        $borrow = $request->getParam('borrow');
+        $serviceFee = $request->getParam('serviceFee');
+        $repayment_date = $request->getParam('repayment_date');
+
+        $db = $container->get('settings')['db'];
+        $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
+
+        $user = $this->auth->user();
+        $loan = \App\models\LoanRequest::getLatest($pdo, $user['email']);
+
+        if ($loan) {
+            if (!$loan['paid']) {
+                return "You have an outstanding loan repayment to complete. Please visit client tab to log in and confirm its status";
+            }
+        }
+
+        \App\models\LoanRequest::create($pdo, $user['email'], $borrow, $total, $interest, $serviceFee, $repayment_date);
+
+        return "Your new loan request is being process. Please visit status tab to confirm its status";
+
+//        return $response->withRedirect($container->router->pathFor('status'));
+
+    });
 
     $this->post('/otp', function ($request, $response){
 
@@ -227,38 +264,6 @@ $app->group('/user', function (){
             'user' => $user,
             'token_message' => $token_message
         ]);
-    });
-
-    $this->post('/compute', function ($request, $response) {
-
-        global $container;
-
-        $date = strtotime($request->getParam('repayment_date'));
-        $newformat = date('Y-m-d',$date);
-        $_SESSION['data'] = array("interest"=>$request->getParam('interest'), "serviceFee"=>$request->getParam('serviceFee'), "total"=>$request->getParam('total'), "borrow"=>$request->getParam('borrow'), "repayment_date"=>$newformat);
-
-        $total = $request->getParam('total');
-        $interest = $request->getParam('interest');
-        $borrow = $request->getParam('borrow');
-        $serviceFee = $request->getParam('serviceFee');
-        $repayment_date = $request->getParam('repayment_date');
-
-        $db = $container->get('settings')['db'];
-        $pdo = new PDO("mysql:host=". $db['host']. ";dbname=". $db['dbname'], $db['user'], $db['pass']);
-
-        $user = $this->auth->user();
-        $loan = \App\models\LoanRequest::findByEmail($pdo, $user['email']);
-
-        if ($loan) {
-            if (!$loan['paid']) {
-                return "You have an outstanding loan repayment to complete. Please visit client tab to log in and confirm its status";
-            }
-        }
-
-        \App\models\LoanRequest::create($pdo, $user['email'], $borrow, $total, $interest, $serviceFee, $repayment_date);
-
-        return $response->withRedirect($container->router->pathFor('status'));
-
     });
 
 })->add(new AuthMiddleware($container));
