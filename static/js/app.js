@@ -76,7 +76,12 @@ _app.controller('CalculateController', function ($scope, $window, $location) {
             localStorage.setItem('date_value', $scope.date_value);
             localStorage.setItem('repayment_date', $scope.repayment_date);
         });
-        location.href = $location.$$absUrl + '/cash';
+        var cash_url = $location.$$absUrl;
+        if (cash_url.endsWith('/')) {
+            cash_url = cash_url.slice(0,-1)
+        }
+
+        location.href = cash_url + '/cash';
     };
 
     $scope.submit_more = function () {

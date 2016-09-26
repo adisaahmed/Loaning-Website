@@ -41,12 +41,6 @@ $app->get('/fast', function($request, $response, $args) {
     return $this->view->render($response, 'fast.twig');
 })->setName('fast');
 
-$app->get('/cash', function($request, $response, $args) {
-    return $this->view->render($response, 'cash.twig', [
-        'error' => null
-    ]);
-})->setName('cash');
-
 $app->get('/online', function($request, $response, $args) {
     return $this->view->render($response, 'online.twig');
 })->setName('online_loan');
@@ -66,6 +60,12 @@ $app->get('/what', function($request, $response, $args) {
 $app->get('/payday', function($request, $response, $args) {
     $this->view->render($response, 'payday.twig');
 })->setName('payday');
+
+$app->get('/cash', function($request, $response, $args) {
+    return $this->view->render($response, 'cash.twig', [
+        'error' => null
+    ]);
+})->setName('cash');
 
 $app->post('/cash', function($request, $response, $args){
 
