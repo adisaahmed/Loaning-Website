@@ -87,12 +87,12 @@
                                         {% if request.paid %}
                                             <button class="btn-sm btn-success" style="width: 120px;">PAID</button>
                                         {% else %}
-                                            <a href="/admin/requests/{{ request.id }}/paid" class="btn-sm btn" style="width: 120px;">MARK AS PAID</a>
+                                            {% if request.approved %}<a href="{{ path_for('paid', {'loan_id': request.id}) }}" class="btn-sm btn" style="width: 120px;">MARK AS PAID</a>{% endif %}
                                         {% endif %}
                                         {% if request.approved %}
                                             <button class="btn-sm btn-success" style="width: 120px;">APPROVED</button>
                                         {% else %}
-                                            <a href="/admin/requests/{{ request.id }}/approve" class="btn-sm btn" style="width: 120px">APPROVE</a>
+                                            <a href="{{ path_for('approve', {'loan_id': request.id}) }}" class="btn-sm btn" style="width: 120px">APPROVE</a>
                                         {% endif %}
                                     </td>
                                 </tr>
