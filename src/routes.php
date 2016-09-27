@@ -185,7 +185,7 @@ $app->group('/user', function (){
         ]);
     })->setName('more');
 
-    $this->post('/more/cash', function ($request, $response) {
+    $this->post('/more/compute', function ($request, $response) {
 
         global $container;
 
@@ -246,7 +246,7 @@ $app->group('/user', function (){
             'user' => $user,
             'message' => $message
         ]);
-    });
+    })->setName('otp');
 
     $this->post('/change', function ($request, $response){
 
@@ -274,7 +274,7 @@ $app->group('/user', function (){
             'user' => $user,
             'token_message' => $token_message
         ]);
-    });
+    })->setName('change');
 
 })->add(new AuthMiddleware($container));
 
