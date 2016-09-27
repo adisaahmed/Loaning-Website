@@ -185,7 +185,7 @@ $app->group('/user', function (){
         ]);
     })->setName('more');
 
-    $this->post('/more/compute', function ($request, $response) {
+    $this->post('/more/cash', function ($request, $response) {
 
         global $container;
 
