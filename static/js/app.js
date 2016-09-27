@@ -30,8 +30,8 @@ _app.controller('CalculateController', function ($scope, $window, $location) {
         $scope.error = localStorage.getItem('error');
         localStorage.setItem('error', '');
 
-        $scope.min = 1000.0;
-        $scope.max = 5000.0;
+        $scope.min = 50000.0;
+        $scope.max = 5000000.0;
 
         $scope.start = 10;
         $scope.end = 40;
@@ -48,7 +48,7 @@ _app.controller('CalculateController', function ($scope, $window, $location) {
         $scope.borrow = localStorage.getItem('borrow');
 
         if (! $scope.borrow) {
-            $scope.borrow = 1000.0;
+            $scope.borrow = 50000.0;
         }
 
         $scope.vat = 5;
@@ -134,8 +134,8 @@ _app.controller('MoreController', function ($scope, $window, $location) {
 
     $scope.init = function () {
 
-        $scope.min = 1000.0;
-        $scope.max = 5000.0;
+        $scope.min = 50000.0;
+        $scope.max = 5000000.0;
 
         $scope.start = 10;
         $scope.end = 40;
@@ -152,7 +152,7 @@ _app.controller('MoreController', function ($scope, $window, $location) {
         $scope.borrow = localStorage.getItem('borrow');
 
         if (! $scope.borrow) {
-            $scope.borrow = 1000.0;
+            $scope.borrow = 50000.0;
         }
 
         $scope.vat = 5;
